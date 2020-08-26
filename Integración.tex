@@ -1,0 +1,1010 @@
+\documentclass[paper=a4, fontsize=11pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\selectlanguage{spanish}
+\usepackage{amsmath, amsfonts, amsthm}
+\DeclareMathOperator{\arcsec}{arcsec}
+\DeclareMathOperator{\arccot}{arccot}
+\DeclareMathOperator{\arccsc}{arccsc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{enumitem}
+\usepackage{empheq}
+\usepackage{tkz-euclide}
+%\usetkzobj{all}
+
+\usepackage{sectsty}
+\allsectionsfont{\centering \normalfont\scshape}
+
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhead{}
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{13.6pt}
+
+\topmargin=-1cm
+\oddsidemargin=0.3cm
+\textwidth=16cm
+\textheight=22cm
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black,
+	urlcolor=blue
+}
+
+\usepackage{amstext} % for \text macro
+\usepackage{array}   % for \newcolumntype macro
+\newcolumntype{L}{>{$}l<{$}} % math-mode version of "l" column type
+
+\numberwithin{equation}{subsection}
+\numberwithin{figure}{subsection}
+\numberwithin{table}{subsection}
+
+\newcommand\invisiblesection[1]{
+	\refstepcounter{section}
+	\addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}
+	\subsectionmark{#1}}
+
+\newcommand\invisiblesubsection[1]{
+	\refstepcounter{subsection}
+	\addcontentsline{toc}{subsection}{\protect\numberline{\thesubsection}#1}
+	\subsectionmark{#1}}
+
+\newcommand\invisiblesubsubsection[1]{
+	\refstepcounter{subsubsection}
+	\addcontentsline{toc}{subsubsection}{\protect\numberline{\thesubsubsection}#1}
+	\subsectionmark{#1}}
+
+\setlength{\parindent}{0pt}
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
+
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\newtheorem{prop}{Proposición}
+\newtheorem{Corollary}{Corolario}
+\renewcommand\qedsymbol{$\blacksquare$}
+\newtheorem{solution}{Solución}
+\newtheorem{problema}{Problema}
+\newtheorem*{solution*}{Solución}
+%Definiciones
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}
+
+\title{
+\normalfont\normalsize
+\textsc{Universidad Nacional Autónoma de México} \\[25pt]
+\horrule{0.5pt} \\[0.4cm]
+\huge Notas de Integración\\[25pt]
+\horrule{2pt} \\[0.5cm]
+}
+
+\author{Víctor Miguel García Sánchez}
+\date{\normalsize\today}
+
+\begin{document}
+%%%%%%\chapter{}
+\begin{flushright}%
+  \emph{Papá, gracias por enseñarme a integrar,\\tanto en cálculo como en la vida.}
+  \thispagestyle{empty}
+\end{flushright}
+\maketitle
+\section*{Notación}
+A lo largo del presente documento, tanto para funciones derivables como integrables, supondremos que lo son en todo el dominio de la función, dejando de lado en la mayoría de los casos los problemas de discontinuidad en denominadores o radicales.
+
+Para la derivada de la función $f$ usaremos indistintamente las notaciones $Df$, $\frac{d}{dx}f(x)$, $f'(x)$. Para la integral de la función $f$, usaremos $\int f(x) dx$ ó $\int f(y)$ según nos convenga.
+
+Usaremos ambos como operadores lineales de espacios vectoriales de funciones, es decir que en lugar de la interpretación usual de aproximación lineal para derivada o de área bajo la curva para la integral, tendremos
+
+\begin{align*}
+D:f(x)&\mapsto f'(x)\\
+\text{O simplemente,}\\
+D:f&\mapsto f'
+\end{align*}
+Y
+\begin{align*}
+\int:f&\mapsto F\\
+\text{O bien,}\\
+\int\;\cdot\; dx:f(x)&\mapsto F(x)
+\end{align*}
+
+Donde $F$ es una primitiva de f.
+
+\newpage
+\section{Las fórmulas de derivadas}
+
+Para fines de las presentes notas, dejaremos de lado las interpretaciones de la derivada, así como su definición formal de límites, sin embargo, para comprender mejor la \textsl{antiderivada}, vale la pena recordar las fórmulas de derivación.
+
+\subsection{Funciones algebraicas}
+
+A continuación se presentan las fórmulas de derivación de funciones algebraicas usando la notación de Leibniz.
+
+Sean $u(x), v(x), w(x)$ funciones de $x$ derivables en todo su dominio, $c$ constante y $n$ real.
+\Large
+\begin{empheq}[box=\fbox]{align}
+	\frac{d}{dx} c&=0\label{eqn:1.1}\\
+	\frac{d}{dx} x&=1\label{eqn:1.2}\\
+	\frac{d}{dx}cv(x)&=c\frac{d}{dx}v\label{eqn:1.3}\\
+	\frac{d}{dx}(u+v-w)(x)&=\frac{d}{dx}u(x)+\frac{d}{dx}v(x)-\frac{d}{dx}w(x)\label{eqn:1.4}\\
+	\frac{d}{dx}[v(x)]^n&=n[v(x)]^{n-1}\frac{d}{dx}v(x)\label{eqn:1.5}\\
+	\frac{d}{dx}(uv)(x)&=u(x)\frac{d}{dx}v(x)+v(x)\frac{d}{dx}u(x)\label{eqn:1.6}\\
+	\frac{d}{dx}\left(\frac{u}{v}\right)(x)&=\frac{v(x)\frac{d}{dx}u(x)-u(x)\frac{d}{dx}v(x)}{[v(x)]^2}\label{eqn:1.7}\\
+	\frac{d}{dx}\left(\frac{c}{v(x)}\right)&=-\frac{c}{[v(x)]^2}\frac{d}{dx}v(x)\label{eqn:1.8}
+\end{empheq}
+\normalsize
+
+\subsubsection{Ejercicios}
+\begin{enumerate}
+	\item Demostrar las fórmulas \ref{eqn:1.1}, \ref{eqn:1.2}, \ref{eqn:1.4} y \ref{eqn:1.6} usando la definición de derivada, también conocida como la \textbf{Regla de los cuatro pasos}.
+	\item Demostrar las fórmulas \ref{eqn:1.3}, \ref{eqn:1.7} y \ref{eqn:1.8} a partir de las fórmulas del ejercicio anterior.
+	\item ** Demostrar la fórmula \ref{eqn:1.5}. \textsl{[Hint: Para $n$ real, usar \textbf{sucesiones de funciones}]}.
+	\item Demostrar la \textbf{Regla de la cadena} a partir de la definición:
+	$$\frac{d}{dx}(f\circ g)(x)=\frac{d}{dx}f(g(x))\frac{d}{dx}g(x)$$
+\end{enumerate}
+
+Otra forma de demostrar la fórmula \ref{eqn:1.5} requiere del uso de la Regla de la cadena y la fórmula de $\frac{d}{dx}e^x$. Aprovecharemos la siguiente sección para mencionar, además de ésta, las fórmulas de derivadas del resto de funciones trascendentes.
+
+\subsection{Funciones trascendentes}
+
+Usaremos indistintamente $\cot$ y $ctg$. Además, supondremos que cada función trigonométrica es continua en $v(x)$ como ya se había mencionado.
+\subsubsection{Trigonométricas}
+\Large
+\begin{empheq}[box=\fbox]{align}
+	\frac{d}{dx}\sen v(x)&=\cos v(x)\frac{d}{dx}v(x)\label{eqn:2.1}\\
+	\frac{d}{dx}\cos v(x)&=-\sen v(x)\frac{d}{dx}v(x)\label{eqn:2.2}\\
+	\frac{d}{dx}\tan v(x)&=[\sec v(x)]^2\frac{d}{dx}v(x)\label{eqn:2.3}\\
+	\frac{d}{dx}\cot v(x)&=-[\csc v(x)]^2\frac{d}{dx}v(x)\label{eqn:2.4}\\
+	\frac{d}{dx}\sec v(x)&=\sec v(x)\tan v(x)\frac{d}{dx}v(x)\label{eqn:2.5}\\
+	\frac{d}{dx}\csc v(x)&=-\csc v(x)\cot v(x)\frac{d}{dx}v(x)\label{eqn:2.6}
+\end{empheq}
+\normalsize
+
+\subsubsection{Inversas Trigonométricas}
+\Large
+\begin{empheq}[box=\fbox]{align}
+	\frac{d}{dx}\arcsen v(x)&=\frac{1}{\sqrt{1-[v(x)]^2}}\frac{d}{dx}v(x)\label{eqn:2.7}\\
+	\frac{d}{dx}\arccos v(x)&=-\frac{1}{\sqrt{1-[v(x)]^2}}\frac{d}{dx}v(x)\label{eqn:2.8}\\
+	\frac{d}{dx}\arctan v(x)&=\frac{1}{1+[v(x)]^2}\frac{d}{dx}v(x)\label{eqn:2.9}\\
+	\frac{d}{dx}\arccot v(x)&=-\frac{1}{1+[v(x)]^2}\frac{d}{dx}v(x)\label{eqn:2.10}\\
+	\frac{d}{dx}\arcsec v(x)&=\frac{1}{v(x)\sqrt{[v(x)]^2-1}}\frac{d}{dx}v(x)\label{eqn:2.11}\\
+	\frac{d}{dx}\arccsc v(x)&=-\frac{1}{v(x)\sqrt{[v(x)]^2-1}}\frac{d}{dx}v(x)\label{eqn:2.12}
+\end{empheq}
+\normalsize
+\subsubsection{Ejercicios}
+\begin{enumerate}
+\item Demostrar las fórmulas \ref{eqn:2.7} a \ref{eqn:2.12} para el caso $v(x)=x$.
+\item Usando la regla de la cadena y el ejercicio anterior, demostrar las fórmulas \ref{eqn:2.7} a \ref{eqn:2.12}.
+\end{enumerate}
+
+\subsubsection{Logarítmicas}
+\Large
+\begin{empheq}[box=\fbox]{align}
+	\frac{d}{dx}\ln v&=\frac{1}{v}\frac{d}{dx}v\label{eqn:2.13}\\
+	\frac{d}{dx}\log_b v&=\frac{\log_b e}{v}\frac{d}{dx}v\label{eqn:2.14}
+\end{empheq}
+\normalsize
+
+\subsubsection{Exponenciales}
+\large
+\begin{empheq}[box=\fbox]{align}
+	\frac{d}{dx}e^{v}&=e^{v}\frac{d}{dx}v\label{eqn:2.15}\\
+	\frac{d}{dx}a^{v}&=\ln a\cdot a^{v}\frac{d}{dx}v\label{eqn:2.16}\\
+	\frac{d}{dx}u^{v}&=v\cdot[u]^{v-1}\frac{d}{dx}u+\ln u\cdot u^{v}\frac{d}{dx}v\label{eqn:2.17}
+\end{empheq}
+\normalsize
+
+\subsubsection{Ejercicios}
+
+\begin{enumerate}
+	\item Demostrar la fórmula \ref{eqn:2.15} \textsl{[Hint: Usar la regla de la cadena.]}
+	\item Demostrar la fórmula \ref{eqn:2.13} usando el ejercicio anterior y la regla de la cadena.
+	\item Demostrar la fórmula \ref{eqn:2.14} \textsl{[Hint: Usar la fórmula de cambio de base:]
+		\begin{align*}
+		\log_b y&=\frac{\ln y}{\ln b}\\
+		&=\ln y\log_b e
+		\end{align*}}
+\end{enumerate}
+
+Las fórmulas anteriores se demuestran a grandes rasgos de la siguiente forma:
+
+\begin{itemize}
+	\item Para demostrar la fórmula \ref{eqn:2.16} se usa que $a^{v}=e^{\ln a\: v}$ y la fórmula \ref{eqn:2.15}.
+	\item Para demostrar la fórmula \ref{eqn:2.17} se usa que $u^{v}=e^{\ln(u)\:\cdot v}$, además de las fórmulas \ref{eqn:2.15}, \ref{eqn:1.6} y \ref{eqn:2.13}.
+\end{itemize}
+
+\section{La diferencial}
+\setcounter{subsection}{1}
+
+La diferencial de la función $f(x)$ se define de la siguiente manera:
+\setcounter{equation}{-1}
+\begin{align}
+	d\left(\;f(x)\;\right)=\frac{d}{dx}f(x)\; dx\label{eqn:1.3.0}
+\end{align}
+Lo anterior no debe confundirse con la utilización común aunque incorrecta de interpretar la notación de derivación de Leibniz como una fracción. Lo cual se explica en \textcolor{red}{Flanders Formas diferenciales}.
+
+La diferencial de una función es su derivada, añadiendo al final un factor $dx$, el cual será tan importante como la constante de integración, cuando lleguemos a la sección de integración, siendo así como su ausencia puede considerarse, por simplicidad, un error ``ortográfico''.
+\subsubsection{Las fórmulas de diferenciales}
+Considerando la definición dada en la ecuación \ref{eqn:1.3.0}, podemos obtener las fórmulas de diferenciales a partir de las fórmulas \ref{eqn:1.1} a \ref{eqn:2.17}:
+Sean $u(x), v(x), w(x)$ funciones de $x$ derivables en todo su dominio y $n$ real.
+\Large
+\begin{empheq}[box=\fbox]{align}
+	d\:c&=0\label{eqn:1.3.1}\\
+	d\:x&=dx\label{eqn:1.3.2}\\
+	d\:cv(x)&=cd\:v\label{eqn:1.3.3}\\
+	d\:(u+v-w)(x)&=d\:u(x)+d\:v(x)-d\:w(x)\label{eqn:1.3.4}\\
+	d\:[v(x)]^n&=n[v(x)]^{n-1}d\:v(x)\label{eqn:1.3.5}\\
+	d\:(uv)(x)&=u(x)d\:v(x)+v(x)d\:u(x)\label{eqn:1.3.6}\\
+	d\:\left(\frac{u}{v}\right)(x)&=\frac{v(x)d\:u(x)-u(x)d\:v(x)}{[v(x)]^2}\label{eqn:1.3.7}\\
+	d\:\left(\frac{c}{v(x)}\right)&=-\frac{c}{[v(x)]^2}d\:v(x)\label{eqn:1.3.8}
+\end{empheq}
+\normalsize
+Se sugiere como ejercicio demostrar la fórmula \ref{eqn:1.3.7} a partir de la fórmula \ref{eqn:1.7} y la ecuación \ref{eqn:1.3.0}.
+\subsection{Funciones trascendentes}
+Siguiendo una estructura similar a la sección anterior, a continuación se presentan las fórmulas de diferenciales de las principales funciones trascendentes.
+\subsubsection{Trigonométricas}
+\Large
+\begin{empheq}[box=\fbox]{align}
+	d\:\sen v(x)&=\cos v(x)d\:v(x)\label{eqn:2.2.1}\\
+	d\:\cos v(x)&=-\sen v(x)d\:v(x)\label{eqn:2.2.2}\\
+	d\:\tan v(x)&=[\sec v(x)]^2d\:v(x)\label{eqn:2.2.3}\\
+	d\:\cot v(x)&=-[\csc v(x)]^2d\:v(x)\label{eqn:2.2.4}\\
+	d\:\sec v(x)&=\sec v(x)\tan v(x)d\:v(x)\label{eqn:2.2.5}\\
+	d\:\csc v(x)&=-\csc v(x)\cot v(x)d\:v(x)\label{eqn:2.2.6}
+\end{empheq}
+\normalsize
+\subsubsection{Inversas trigonométricas}
+\Large
+\begin{empheq}[box=\fbox]{align}
+	d\:\arcsen v(x)&=\frac{1}{\sqrt{1-[v(x)]^2}}d\:v(x)\label{eqn:2.2.7}\\
+	d\:\arccos v(x)&=-\frac{1}{\sqrt{1-[v(x)]^2}}d\:v(x)\label{eqn:2.2.8}\\
+	d\:\arctan v(x)&=\frac{1}{1+[v(x)]^2}d\:v(x)\label{eqn:2.2.9}\\
+	d\:\arccot v(x)&=-\frac{1}{1+[v(x)]^2}d\:v(x)\label{eqn:2.2.10}\\
+	d\:\arcsec v(x)&=\frac{1}{v(x)\sqrt{[v(x)]^2-1}}d\:v(x)\label{eqn:2.2.11}\\
+	d\:\arccsc v(x)&=-\frac{1}{v(x)\sqrt{[v(x)]^2-1}}d\:v(x)\label{eqn:2.2.12}
+\end{empheq}
+\normalsize
+\subsubsection{Logarítmicas}
+\Large
+\begin{empheq}[box=\fbox]{align}
+	d\:\ln v&=\frac{1}{v}d\:v\label{eqn:2.2.13}\\
+	d\:\log_b v&=\frac{\log_b e}{v}d\:v\label{eqn:2.2.14}
+\end{empheq}
+\normalsize
+\subsubsection{Exponenciales}
+\Large
+\begin{empheq}[box=\fbox]{align}
+	d\:e^{v}&=e^{v}d\:v\label{eqn:2.2.15}\\
+	d\:a^{v}&=\ln a\cdot a^{v}d\:v\label{eqn:2.2.16}\\
+	d\:u^{v}&=v\cdot[u]^{v-1}d\:u+\ln u\cdot u^{v}d\:v\label{eqn:2.2.17}
+\end{empheq}
+\normalsize
+\subsection{Integración de formas elementales ordinarias}
+
+En los problemas de cálculo integral nos interesa:
+
+\textsl{Hallar una función $f(x)$ cuya derivada}
+$$f'(x)=\phi(x)$$
+\textsl{es conocida.}
+\textcolor{red}{simplificadas o granville?}
+
+Nos concentraremos en aprender a hallar las integrales \textsl{indefinidas} de expresiones dadas.
+
+En lo que sigue daremos por sentado que todas nuestras funciones de interés poseen una integral indefinida, el estudio riguroso de la integrabilidad de las funciones queda fuera del propósito de estas notas. Sin embargo seguirá teniendo importancia la \textsl{constante de integración} debido a su relevancia en cursos como ecuaciones diferenciales.
+%231
+
+Tampoco entraremos a detalle en la teoría de formas diferenciales, sin embargo, es importante, al expresar una integral no olvidar el $dx$, ya que el restarle importancia puede llevarnos a cometer errores como el siguiente:
+
+Al resolver la integral $\int\sen(x^2)$, ``se puede realizar'' la sustitución $u=x^2$, con lo que $$\int\sen(u)=-\cos(u)=\cos(x^2)$$
+
+Así que a grandes rasgos, diremos que la integral es una ``\textsl{medida}'' y $dx$ nos habla del tamaño de la unidad de medida.
+%mencionar la integral de rieman dF(x)...
+
+\subsubsection{Integrales inmediatas}
+Con la finalidad de coincidir en la notación con los principales libros de referencia, en ésta subsección nos referiremos a $v(x)$, por simplicidad como $v$, siendo así como, por ejemplo, la fórmula \ref{eqn:2.3.5}, se escribiría correctamente como
+$$\int \frac{dv(x)}{v(x)}=ln(v(x))+C$$
+Además de permitirnos usar indistintamente $v$ como variable o como función de $x$. Dicho lo anterior, haremos uso del Teorema Fundamental del Cálculo y las fórmulas \ref{eqn:1.3.2} a \ref{eqn:1.3.6}, \ref{eqn:2.13} y \ref{eqn:2.15} para obtener las siguientes fórmulas de integrales:
+
+\begin{empheq}[box=\fbox]{align}
+	\int 1 dx=\int dx&=x+C\label{eqn:2.3.1}\\
+	\int cvdx&=c\int vdx+C\label{eqn:2.3.2}\\
+	\int (u+v-w)dx&=\int udx+\int vdx-\int wdx\label{eqn:2.3.3}\\
+	\int v^ndv&=\frac{v^{n+1}}{n+1}+C\text{ Si }n\neq -1\label{eqn:2.3.4}\\
+	\int \frac{dv}{v}&=ln(v)+C\label{eqn:2.3.5}\\
+	\int e^{v}dv&=e^{v}+C\label{eqn:2.3.6}
+\end{empheq}
+Un primer uso de la fórmula \ref{eqn:2.3.4} es generalizar la fórmula \ref{eqn:2.3.1}, ésto al tomar $n=0$, de manera que
+$$\int dv=v+C$$
+como $v$ es una función ($v(x)$), podemos ver la ecuación anterior como una versión del Teorema Fundamental del Cálculo.
+
+A su vez, de las fórmulas \ref{eqn:2.2.1} a \ref{eqn:2.2.6} se obtienen las siguientes:
+\begin{empheq}[box=\fbox]{align}
+	\int \cos v dv&=\sen v+C\label{eqn:2.3.7}\\
+	\int\sen v dv&=-\cos v+C\label{eqn:2.3.8}\\
+	\int \sec^2 v\:dv&=\tan v+C\label{eqn:2.3.9}\\
+	\int \csc^2 v\:dv&=-\cot v+C\label{eqn:2.3.10}\\
+	\int \sec v\tan v dv&=\sec v+C\label{eqn:2.3.11}\\
+	\int \csc v\cot vdv&=-\csc v+C\label{eqn:2.3.12}
+\end{empheq}
+Podemos notar que el caso que no es cubierto por la fórmula \ref{eqn:2.3.4}, $n=-1$, puede resolverse mediante la fórmula \ref{eqn:2.3.5}.
+
+Las fórmulas \ref{eqn:2.2.7} a \ref{eqn:2.2.12} también nos brindan integrales inmediatas, pero éstas convienen ser estudiadas en el tema de Integración por Sustitución Trigonométrica o cambio de variable.
+\subsection{Algunas integrales casi inmediatas}
+A continuación veremos otras integrales que requieren de un esfuerzo ligeramente mayor a la simple observación de la fórmula y la correcta elección de la función $v(x)$ a integrar.
+\begin{problema}[$\int tan\:v\:dv$]\label{problema1}
+Comencemos utilizando la siguiente identidad trigonométrica:
+\begin{align}\label{eqn:2.4.1}
+	\int tan\:x\:dx&=\int \frac{sen\:x}{cos\:x}\:dx\nonumber\\
+	&=-\int \frac{-sen\:x\:dx}{cos\:x}\nonumber
+\intertext{Podemos ver que al sustituir $v=x$ en la fórmula \ref{eqn:2.2.2} obtenemos el numerador de la expresión anterior, así que podemos reescribir lo anterior como}
+				&=-\int \frac{d(cos\:x)}{cos\:x}\nonumber
+			\intertext{Al usar la fórmula \ref{eqn:2.3.5} con $v(x)=cos\:x$, obtenemos}
+				&=-ln(cos\:x)+C\nonumber\\
+	\int tan\:v\:dv&=-ln(cos\:v)+C
+\end{align}
+\end{problema}
+\begin{problema}[$\int cot\:v\:dv$]\label{problema2}
+La demostración es análoga a la integral \ref{eqn:2.4.1}
+\begin{align}
+\int cot\:v\:dv=ln(sen\:v)+C
+\end{align}
+\end{problema}
+\begin{problema}[$\int sec\:v\:dv$]\label{problema3}
+Al observar las fórmulas \ref{eqn:2.2.1} a \ref{eqn:2.2.6}, podemos notar que no hay expresión trigonométrica, cuya diferencial sea $sec\:v\:dv$, sin embargo, \ref{eqn:2.2.3} y \ref{eqn:2.2.5} tienen expresiones parecidas, así que multiplicamos y dividimos la expresión por $sec\:x+tan\:x$:
+\begin{align}
+\int sec\:x\:dx&=\int \frac{sec\:x+tan\:x}{sec\:x+tan\:x} sec\:x\:dx\nonumber\\
+			&=\int \frac{(sec\:x+tan\:x)sec\:x\:dx}{sec\:x+tan\:x}\nonumber\\
+			&=\int \frac{(sec^2\:x+tan\:x\:sec\:x)\:dx}{sec\:x+tan\:x}\nonumber
+			\intertext{Al reordenar los sumandos del denominador}
+			&=\int \frac{(sec^2\:x+tan\:x\:sec\:x)\:dx}{tan\:x+sec\:x},\nonumber
+			\intertext{Al sustituir en la fórmula \ref{eqn:1.3.4} $u=tan\:x$, $v=sec\:x$ y $w=0$, además de las ya mencionadas fórmulas \ref{eqn:2.2.3} y \ref{eqn:2.2.5}, ambas con $v=x$, podemos reescribir el numerador de la forma}
+			&=\int \frac{d(tan\:x+\:sec\:x)}{tan\:x+sec\:x}\nonumber\\
+			\intertext{Finalmente al usar la fórmula \ref{eqn:2.3.5} con $v(x)=tan\:x+sec\:x$, obtenemos}
+			&=ln(tan\:x+sec\:x)+C\nonumber\\
+\label{eqn:2.4.3}
+\int sec\:v\:dv&=ln(tan\:v+sec\:v)+C
+\end{align}
+\end{problema}
+\begin{problema}[$\int csc\:v\:dv$]
+La demostración es análoga a la integral \ref{eqn:2.4.3}
+\begin{align}
+\int csc\:v\:dv=-ln(cot\:v+csc\:v)+C
+\end{align}
+\end{problema}
+\begin{problema}[$\int a^v\:dv$]\label{problema5}
+El caso $a=1$ se ve en la fórmula \ref{eqn:2.3.1}, así que supondremos $a\neq 1$.
+Multiplicamos y dividimos por $\ln a$,
+\begin{align}
+	\int a^x\:dx&=\int \frac{\ln a}{\ln a} a^x\:dx\nonumber\\
+			&=\int \frac{1}{\ln a} \ln a\cdot a^x\:dx\nonumber
+\intertext{Al utilizar la fórmula \ref{eqn:2.3.2} con $c=\frac{1}{\ln a}$ y $v=\ln a\cdot a^x$, obtenemos}
+			&=\frac{1}{\ln a}\int \ln a\cdot a^x\:dx\nonumber
+\intertext{Al usar la fórmula \ref{eqn:2.2.16} con $v=x$, obtenemos}
+			&=\frac{1}{\ln a}\int d(a^x)\nonumber
+\intertext{Así que usar el Teorema Fundamental del Cálculo, antes enunciado como la versión general de la fórmula \ref{eqn:2.3.1} con $v(x)=a^x$, concluimos que}
+			&=\frac{1}{\ln a}a^x+C\nonumber\\
+	\int a^v\:dv&=\frac{1}{\ln a}a^v+C
+\end{align}
+\end{problema}
+\subsection{Ejercicios}
+\begin{align}
+	\int 2(2+x^2)^{\frac{3}{2}}dx&=\frac{2(2+x^2)^{\frac{5}{2}}}{5}+C\\
+	\int \sqrt{m+nx} dx&=\frac{2(m+nx)^{\frac{3}{2}}}{3n}+C\\
+	\int \frac{e^{\theta} d\theta}{c+ae^{\theta}}&=\frac{1}{a}\ln |c+ae^{\theta}|+C\\
+	\int \frac{\sen 5x\:dx}{1-\cos 5x}&=\frac{1}{5}\ln|1-\cos 5x|+C\\
+	\int \frac{dx}{e^{2x}}&=\frac{1}{2e^{2x}}+C\label{ejercicio2.5.1}\\
+	\int \frac{\tan\sqrt{x}}{\sqrt x}&=2\ln|\sec{\sqrt x}|+C
+\end{align}
+\subsection{Resumen de las fórmulas}
+\begin{tabular}{| L | L | L | L|}
+\hline
+\text{Función} & \text{Derivada} & \text{Diferencial}& \text{Integral}\\
+\hline
+f(x)&\frac{d}{dx}f(x)&d\:f(x)&\int f(x)\:dx\\
+\hline
+c & 0 &0&cx+C\\
+x&1&dx&\frac{x^2}{2}+C\\
+cv(x)&c\frac{d}{dx}v(x)&c\frac{d}{dx}v(x)dx&c\int v(x) dx\\
+(u+v-w)(x)&\frac{d}{dx}u(x)+\frac{d}{dx}v(x)-\frac{d}{dx}w(x)&du(x)+dv(x)-dw(x)&\int u dx+\int v dx-\int w dx\\
+\left[v(x)\right]^n&n\left[v(x)\right]^{n-1}\frac{d}{dx}v(x)&n\left[v(x)\right]^{n-1}dv(x)&\\
+x^n&nx^{n-1}&nx^{n-1}dx&\left\{\begin{matrix}\frac{x^{n+1}}{n+1}+C\text{ si }n\neq-1\\ ln(x)+C\text{ si }n=-1\end{matrix}\right.\\
+u(x)v(x)&u(x)\frac{d}{dx}v(x)+v(x)\frac{d}{dx}u(x)&udv(x)+vdu(x)&\\
+\left(\frac{u}{v}\right)(x)&\frac{v(x)\frac{d}{dx}u(x)-u(x)\frac{d}{dx}v(x)}{\left[v(x)\right]^2}&\frac{v(x)du(x)-u(x)dv(x)}{\left[v(x)\right]^2}&\\
+\frac{c}{v(x)}&-\frac{c}{\left[v(x)\right]^2}\frac{d}{dx}v(x)&-\frac{c}{\left[v(x)\right]^2}dv(x)&\\
+\hline
+sen\:v(x)&cos\:v(x)\frac{d}{dx}v(x)&cos\:v(x)dv(x)&\\
+sen\:x&cos\:x&cos\:x\:dx&-cos\:x+C\\
+cos\:v(x)&-sen\:v(x)\frac{d}{dx}v(x)&-sen\:v(x)dv(x)&\\
+cos\:x&-sen\:x&-sen\:x\:dx&sen\:x+C\\
+tan\:v(x)&\left[sec\:v(x)\right]^2\frac{d}{dx}v(x)&\left[sec\:v(x)\right]^2dv(x)&\\
+tan\:x&\left[sec\:x\right]^2&\left[sec\:x\right]^2dx&-ln(cos\:x)+C\\
+cot\:v(x)&-\left[csc\:v(x)\right]^2\frac{d}{dx}v(x)&-\left[csc\:v(x)\right]^2dv(x)&\\
+cot\:x&-\left[csc\:x\right]^2&-\left[csc\:x\right]^2dx&ln(sen\:v)+C\\
+sec\:v(x)&sec\:v(x)tan\:v(x)\frac{d}{dx}v(x)&sec\:v(x)tan\:v(x)dv(x)&\\
+sec\:x&sec\:x\:tan\:x&sec\:x\:tan\:x\:dv(x)&ln(tan\:x+sec\:x)+C\\
+csc\:v(x)&-csc\:v(x)cot\:v(x)\frac{d}{dx}v(x)&-csc\:v(x)cot\:v(x)dv(x)&\\
+csc\:x&-csc\:x\:cot\:x&-csc\:x\:cot\:x\:dv(x)&-ln(cot\:x+csc\:x)+C\\
+\hline
+\arcsen\:v(x)&\frac{1}{\sqrt{1-[v(x)]^2}}\frac{d}{dx}v(x)&\frac{1}{\sqrt{1-[v(x)]^2}}d\:v(x)&\\
+\arccos\:v(x)&-\frac{1}{\sqrt{1-[v(x)]^2}}\frac{d}{dx}v(x)&-\frac{1}{\sqrt{1-[v(x)]^2}}d\:v(x)&\\
+\arctan\:v(x)&\frac{1}{1+[v(x)]^2}\frac{d}{dx}v(x)&\frac{1}{1+[v(x)]^2}d\:v(x)&\\
+\arccot\:v(x)&-\frac{1}{1+[v(x)]^2}\frac{d}{dx}v(x)&-\frac{1}{1+[v(x)]^2}d\:v(x)&\\
+\arcsec\:v(x)&\frac{1}{v(x)\sqrt{[v(x)]^2-1}}\frac{d}{dx}v(x)&\frac{1}{v(x)\sqrt{[v(x)]^2-1}}d\:v(x)&\\
+\arccsc\:v(x)&-\frac{1}{v(x)\sqrt{[v(x)]^2-1}}\frac{d}{dx}v(x)&-\frac{1}{v(x)\sqrt{[v(x)]^2-1}}d\:v(x)&\\
+\hline
+ln(v(x))&\frac{1}{v(x)}\frac{d}{dx}v(x)&\frac{1}{v(x)}d\:v(x)&\\
+log_bv&\frac{log_be}{v(x)}\frac{d}{dx}v(x)&\frac{log_be}{v(x)}d\:v(x)&\\
+\hline
+e^{v(x)}&e^{v(x)}\frac{d}{dx}v(x)&e^{v(x)}d\:v(x)&\\
+e^{x}&e^{x}&e^{x}dx&e^x\\
+a^{v(x)}&\ln\:a\:a^{v(x)}\frac{d}{dx}v(x)&\ln\:a\:a^{v(x)}d\:v(x)&\\
+a^{x}&\ln\:a\:a^{x}&\ln\:a\:a^{x}\:dx&\frac{1}{\ln a}a^x+C\\
+\left[u(x)\right]^{v(x)}&v\cdot[u]^{v-1}\frac{d}{dx}u+\ln u\cdot u^{v}\frac{d}{dx}v&v\cdot[u]^{v-1}d\:u+\ln u\cdot u^{v}d\:v&\\
+\hline
+\end{tabular}\label{tabla1}
+En el formulario anterior, hay expresiones cuyas integrales no expresamos, esto por ser demasiado generales, o bien, porque aún no abordamos los métodos para obtenerlas.
+\subsection{Problemas}
+\begin{align}
+	&\int\left(\frac{4}{\sqrt[3]{x}}-\frac{5}{\sqrt[4]{x}}\right)dx\\
+	&\int \cot x(2+\ln|\sec x|)dx\\
+	&\int \frac{dy}{y\ln^2 y}\\
+	&\int \sqrt{1+\cos \alpha}d\alpha\\
+	&\int e^{\frac{1}{\sec 2x}}\sen 2x\: dx\\
+	&\int (10^{3x}-2^x)dx\\
+	&\int \frac{e^{\arctan x}}{1+x^2}dx\\
+	&\int x\csc 4x^2 dx\\
+	&\int e^{2x}\sen(e^{2x})dx\\
+	&\int \frac{dw}{\cos^2 w-\cos 2w}
+\end{align}
+
+\section{Artificios de integración}
+Se llaman artificios de integración a los procesos que nos permiten resolver una integral que no es inmediata, es decir, en aquellas en las que además de la elección estratégica de $v(x)$\footnote{Véase el Problema \ref{problema1}}, la racionalización, factorización o algún otro truco algebraico no tan evidente\footnote{Véase el Problema \ref{problema3}} que permite la solución de alguna integral.
+
+\textcolor{red}{para cada idea del parrafo anterior, poner una nota al pie de página, haciendo alución a ejercicios específicos de la sección anterior}
+\subsection{Cambio de variable o sustitución algebraica}\label{subsec3.1}
+Uno de los ejemplos más evidentes de sustitución algebraica es el presentado en el \ref{problema5}, pues el paso crucial de integración se resolvió simplemente eligiendo $v(x)=a^x$ para su uso en una fórmula básica.
+
+Tanto la sustitución algebraica como trigonométrica tienen una interpretación específica en la teoría de la medida, en especial al trabajar con integrales definidas, sin embargo, al menos para esta parte del texto, por simplicidad realizaremos ambos procesos de sustitución sin preocuparnos demasiado por estas implicaciones teóricas, procurando volver siempre a la variable original de interés.
+
+Para mayor claridad, expresaremos tal idea al reescribir el problema \ref{problema1} siguiendo el proceso de sustitución algebraica.
+\begin{problema}
+\begin{align*}
+	\int tan\:x\:dx&=\int \frac{sen\:x}{cos\:x}\:dx\\
+	&=-\int \frac{-sen\:x\:dx}{cos\:x}
+\intertext{Sea $v=cos\:x$. Con tal elección de $v$, de la tabla \ref{tabla1} tenemos que $dv=-sen\:x\:dx$, así que podemos reescribir la integral anterior como}
+				&=-\int \frac{dv}{v}
+\intertext{Usando la fórmula \ref{eqn:2.3.5}, obtenemos}
+				&=-ln\:v+C
+\intertext{Y como $v=cos\:x$, entonces}
+				&=-ln(cos\:x)+C
+\end{align*}
+\end{problema}
+\textbf{Una de las ideas más relevantes a destacar del ejercicio anterior y del proceso de integración en general, es que $dv$ no se debe ``elegir'' a conveniencia para contar con todos los términos que aparecen en el integrando, $dv$ se determina al diferenciar el $v$ que se haya elegido.}
+
+La simple idea de cambiar una expresión complicada por una sola variable algebraica nos abre la puerta a poder efectuar la integración se expresiones más generales.
+\begin{problema}[$\int sen^nx\:cos\:x\:dx$]
+	Si $n=-1$, tenemos $\int cot\:x\:dx$, la cual se abordó en el Problema \ref{problema2}.
+	
+	Si $n\neq -1$, para efectuar la integral, definamos $v=sen\:x$, de acuerdo a la tabla \ref{tabla1}, $dv=cos\:x\:dx$, así que es posible reescribir la integral como
+	\begin{align*}
+		\int sen^nx\:cos\:x\:dx&=\int v^n dv
+		\intertext{Como $n\neq -1$, podemos utilizar la fórmula \ref{eqn:2.3.4}, así que}
+		&=\frac{v^{n+1}}{n+1}+C
+		\intertext{Y como $v=sen\:x$, entonces}
+		&=\frac{sen^{n+1}x}{n+1}+C
+	\end{align*}
+	Por lo anterior,
+	$$\int sen^nx\:cos\:x\:dx=\left\{\begin{matrix}ln(sen\:v)+C,&\text{ si }n=-1\\ \frac{sen^{n+1}x}{n+1}+C,&\text{ si }n\neq-1.\end{matrix}\right.$$
+\end{problema}
+Podemos notar en los problemas anteriores que la elección de $v$ tuvo como consecuencia la aparición de forma natural de $dv$ en la integral, lo cual permitió convertir las integrales en integrales inmediatas, beneficio que no se tiene en todas las integrales, para ilustrarlo refirámonos al Problema \ref{problema5}.
+\begin{problema}[$\int a^x\:dx$]\label{problema8}
+Sea $u=a^x$, con lo que la tabla \ref{tabla1}, $du=ln\:a\:a^x\:dx$, así que podemos reescribir la integral como
+\begin{align*}
+	\int a^x\:dx&=\int \frac{du}{ln\:a}
+	\intertext{Usando la fórmula \ref{eqn:2.3.2} con $c=\frac{1}{ln\:a}$ y $v=1$, obtenemos}
+			&=\frac{1}{ln\:a}\int du
+	\intertext{Por el Teorema Fundamental del Cálculo,}
+			&=\frac{u}{ln\:a}+C
+	\intertext{Y como $u=a^x$,}
+			&=\frac{a^x}{ln\:a}+C
+\end{align*}
+\end{problema}
+En contraste con los problemas previos en los que solo se requirió del cambio de variable para determinar cual integral inmediata permitía terminar el problema, en este caso, la aparición del factor constante $\frac{1}{ln\:a}$ requirió de un pequeño esfuerzo adicional: la manipulación de constantes dentro y fuera de la integral auxiliados de la fórmula \ref{eqn:2.3.2}.
+
+Un error común mientras se aprende a integrar consiste en que tras la elección de $v$, sin acudir a la diferenciación de la misma, se asuma erróneamente que el resto de elementos de la expresión constituyen $dv$, es por eso que se recomienda ampliamente verificar que elementos aparecen y cuales no en la fórmula que se está considerando utilizar.
+
+El siguiente problema se presenta para reafirmar la importancia de determinar $dv$ a partir de $v$, sin verse influenciados por la forma de la integral que se está realizando.
+\begin{problema}[$\int(4x^3+6x)^{\pi-1} (2x^2+1)dx$]\label{problema9}
+	Comencemos notando que la aparición del exponente $\pi-1$ sugiere el uso de la fórmula \ref{eqn:2.3.4}, en la que la elección de $v$ es claramente $v=4x^3+6x$ junto a $n=\pi-1\neq-1$.
+	
+	Como antes se mencionó, un error común es asumir que el resto de elementos dentro de la integral, $(2x^2+1)dx$ constituyen a $dv$, lo cual facilitaría claramente la integración, aunque esto sería incorrecto, pues $dv$ se debe obtener, por definición, al diferenciar $v$, así que $dv=12x^2+6=6(2x^2+1)dx$, de donde podemos observar que es posible reescribir la integral como
+	\begin{align*}
+		\int(4x^3+6x)^{\pi-1} (2x^2+1)dx&=\int v^n \frac{dv}{6}
+		\intertext{Usando la fórmula \ref{eqn:2.3.2} seguida de la \ref{eqn:2.3.4},}
+									&=\frac{1}{6}\int v^n dv\\
+									&=\frac{1}{6}\frac{v^{n+1}}{n+1}+C\\
+									&=\frac{v^{n+1}}{6(n+1)}+C
+		\intertext{Finalmente, como $v=4x^3+6x$ y $n=\pi-1$, entonces}
+		\int(4x^3+6x)^{\pi-1} (2x^2+1)dx&=\frac{(4x^3+6x)^{\pi}}{6\pi}+C
+	\end{align*}
+\end{problema}
+\subsubsection{Ejercicios}
+\begin{align}
+	\int \frac{6z\:dz}{(5-3z^2)^2}&=\frac{8\sqrt{x^3+8}}{3}+C\\
+	\int \sqrt x \left(\sqrt{a}-\sqrt{x}\right)^2dx&=\frac{2}{3}ax^{\frac{3}{2}}-x^2\sqrt{a}+\frac{2x^{\frac{5}{2}}}{5}+C\\
+	\int \left(\frac{sec\:x}{1+tan\:x}\right)^2dx&=-\frac{1}{1+tan\:x}+C\\
+	\int \frac{e^\theta\:d\theta}{a+be^\theta}&=\frac{ln(a+be^\theta)}{b}+C\\
+	\int x^{n-1}\sqrt{a+bx^n}\:dx&=\frac{2(a+bx^n)^{\frac{3}{2}}}{3bn}+C\\
+	\int \frac{x^2\:dx}{2+x^3}&=\frac{ln(2+x^3)}{3}+C
+\end{align}
+\subsubsection{Problemas}
+\begin{align}
+	\int \frac{sec^2\:y\:dy}{a+b\:tan\:y}\\
+	\int \frac{ae^\theta+b}{ae^\theta-b}d\theta\\
+	\int \frac{x\:dx}{(a+bx^2)^3}\\
+	\int \frac{x^2\:dx}{(a+bx^3)^2}\\
+	\int \frac{sen\:a\theta\:d\theta}{cos\:a\theta+b}\\
+	\int \frac{csc^2\phi\:d\phi}{\sqrt{2cot\phi+3}}\\
+	\int \frac{sec\:2\theta\: tan\:2\theta\: d\theta}{3sec\:2\theta-2}\\
+	\int 6 e^{3x}dx\\
+	\int (e^{5x}+a^{5x})dx\\
+	\int a^{x}e^x\:dx
+\end{align}
+\subsection{Sustitución trigonométrica}
+A partir del teorema fundamental del cálculo y las fórmulas \ref{eqn:2.7} a \ref{eqn:2.12}, es posible obtener integrales sencillas como la siguiente:
+\begin{problema}\label{problema10}
+	\begin{align*}
+		\int \frac{dx}{\sqrt{1-x^2}}&=\int\frac{1}{\sqrt{1-x^2}}dx
+		\intertext{Usando la fórmula \ref{eqn:2.7} con $v=x$,}
+							&=\int d(arc\:sen\: x)
+		\intertext{Por el Teorema Fundamental del cálculo,}
+							&=arc\:sen\:x+C
+	\end{align*}
+\end{problema}
+Sin embargo, existe un proceso que permite resolver integrales que poseen expresiones de la forma $a^2-[v(x)]^2$, $a^2+[v(x)]^2$ y $[v(x)]^2-a^2$. A este proceso se le conoce como \textsl{Integración por sustitución trigonométrica}. Tal proceso es bastante similar al de sustitución algebraica, además de aprovechar las identidades trigonométricas para convertir expresiones que poseen sumas o diferencias dentro de radicales en integrales más simples que se pueden resolver usando las fórmulas \ref{eqn:2.3.1} a \ref{eqn:3.13}, además de incorporar las fórmulas \ref{eqn:2.3.7} a \ref{eqn:2.3.12}.
+
+Un diagrama ilustrativo para entender cuál es la sustitución trigonométrica de acuerdo a la integral a realizarse es el siguiente, que además sirve de ayuda visual para que, al terminar el proceso de integración, se pueda volver a expresar en función de la variable inicial. 
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Expresión&\text{Sustitución}&Triángulo\\
+en la integral&\text{trigonométrica}&asociado\\
+\hline
+$a^2-v^2$&$v=a\:sen\:\theta$&\begin{tikzpicture}[scale=.5]
+							\tkzInit[xmax=5,ymax=3] %\tkzClip[space=.5]
+							\tkzDefPoint(0,0){A} \tkzDefPoint(4,0){B}
+							\tkzDrawTriangle[pythagore](A,B)
+							\tkzGetPoint{C}
+							\tkzMarkRightAngle(A,B,C)
+							\tkzLabelSegment[below,font=\footnotesize](A,B){$\sqrt{a^2 - v^2}$}
+							\tkzLabelSegment[above,font=\footnotesize](A,C){$a$}
+							\tkzLabelSegment[right,font=\footnotesize](B,C){$v$}
+							\tkzMarkAngle[fill= blue!40,size=1.2cm,opacity=.5](B,A,C)
+							\tkzLabelAngle[pos=0.8](B,A,C){$\theta$}
+							\end{tikzpicture}\\
+\hline
+$a^2+v^2$&$v=a\:tan\:\theta$&\begin{tikzpicture}[scale=.5]
+							\tkzInit[xmax=5,ymax=3] %\tkzClip[space=.5]
+							\tkzDefPoint(0,0){A} \tkzDefPoint(4,0){B}
+							\tkzDrawTriangle[pythagore](A,B)
+							\tkzGetPoint{C}
+							\tkzMarkRightAngle(A,B,C)
+							\tkzLabelSegment[below,font=\footnotesize](A,B){$a$}
+							\tkzLabelSegment[above, rotate=35, font=\footnotesize](A,C){$\sqrt{a^2+u^2}$}
+							\tkzLabelSegment[right,font=\footnotesize](B,C){$v$}
+							\tkzMarkAngle[fill= blue!40,size=1.2cm,opacity=.5](B,A,C)
+							\tkzLabelAngle[pos=0.8](B,A,C){$\theta$}
+							\end{tikzpicture}\\
+\hline
+$v^2-a^2$&$v=a\:sec\:\theta$&\begin{tikzpicture}[scale=.5]
+							\tkzInit[xmax=5,ymax=3] %\tkzClip[space=.5]
+							\tkzDefPoint(0,0){A} \tkzDefPoint(4,0){B}
+							\tkzDrawTriangle[pythagore](A,B)
+							\tkzGetPoint{C}
+							\tkzMarkRightAngle(A,B,C)
+							\tkzLabelSegment[below,font=\footnotesize](A,B){$a$}
+							\tkzLabelSegment[above,font=\footnotesize](A,C){$v$}
+							\tkzLabelSegment[below,rotate=90,font=\footnotesize](B,C){$\sqrt{v^2 - a^2}$}
+							\tkzMarkAngle[fill= blue!40,size=1.2cm,opacity=.5](B,A,C)
+							\tkzLabelAngle[pos=0.8](B,A,C){$\theta$}
+							\end{tikzpicture}\\
+\hline
+\end{tabular}\label{tabla2}
+\end{center}
+Veamos ahora como usar la tabla \ref{tabla2} para resolver una integral más general que la vista en el Problema \ref{problema10}.
+\begin{problema}[$\int\frac{x^2\:dx}{(3+4x-4x^2)^{\frac{3}{2}}}$]
+Comencemos factorizando el denominador tanto como sea posible, esto al notar que $(2x-1)^2=4x^2-4x+1$, así que
+	\begin{align*}
+		\int\frac{x^2\:dx}{(3+4x-4x^2)^{\frac{3}{2}}}&=\int\frac{x^2\:dx}{[4-(2x+1)^2]^{\frac{3}{2}}}\\
+					&=\int\frac{x^2\:dx}{[2^2-(2x+1)^2]^{\frac{3}{2}}}
+\intertext{Dado que el denominador tiene la forma $a^2-v^2$, efectuamos la sustitución $2x+1=2\:sen\:\theta$, por lo que $x=\frac{2\:sen\:\theta-1}{2}$, así que}
+					&=\int\frac{\left(\frac{2\:sen\:\theta-1}{2}\right)^2\:d\left(\frac{2\:sen\:\theta-1}{2}\right)}{[2^2-(2\:sen\:\theta)^2]^{\frac{3}{2}}}
+					\intertext{Al aplicar la diferencial,}
+					&=\int\frac{\left(\frac{2\:sen\:\theta-1}{2}\right)^2cos\:\theta\:d\theta}{[2^2-2^2\:sen^2\:\theta]^{\frac{3}{2}}}\\
+					&=\int\frac{\frac{\left(2\:sen\:\theta-1\right)^2}{4}cos\:\theta\:d\theta}{[2^2(1-sen^2\:\theta)]^{\frac{3}{2}}}\\
+					&=\int\frac{\frac{\left(2\:sen\:\theta-1\right)^2}{4}cos\:\theta\:d\theta}{2^{3}(1-sen^2\:\theta)^{\frac{3}{2}}}\\
+					&=\frac{1}{32}\int\frac{\left(2\:sen\:\theta-1\right)^2cos\:\theta\:d\theta}{(1-sen^2\:\theta)^{\frac{3}{2}}}
+					\intertext{Al aplicar la identidad trigonométrica \textsl{pitagórica} $sen^2\:\theta+cos^2\:\theta=1$,}
+					&=\frac{1}{32}\int\frac{(4\:sen^2\:\theta-4sen\:\theta+1)cos\:\theta\:d\theta}{(cos^2\:\theta)^{\frac{3}{2}}}\\
+					&=\frac{1}{32}\int\frac{4\:sen^2\:\theta cos\:\theta-4sen\:\theta cos\:\theta+cos\:\theta}{cos^3\:\theta}\:d\theta
+					\intertext{Al descomponer la fracción en una suma de fracciones, simplificar y posteriormente, usando las fórmulas \ref{eqn:2.3.3} y \ref{eqn:2.3.2} sucesivamente para descomponer en una suma de integrales,}
+					&=\frac{1}{8}\int\frac{sen^2\:\theta}{cos^2\:\theta}d\theta-\frac{1}{8}\int\frac{sen\:\theta}{cos\:\theta}\frac{1}{cos\:\theta} d\theta+\frac{1}{32}\int\frac{1}{cos^2\:\theta}d\theta
+					\intertext{Las identidades trigonométricas \textsl{de razón}, nos permiten reescribir las integrales anteriores como}
+					&=\frac{1}{8}\int tan^2\:\theta\:d\theta-\frac{1}{8}\int tan\:\theta\:sec\:\theta\:d\theta+\frac{1}{32}\int sec^2\:\theta\:d\theta
+					\intertext{Al aplicar la identidad trigonométrica \textsl{pitagórica} $tan^2\:\theta+1=sec^2\:\theta$}
+					&=\frac{1}{8}\int (sec^2\:\theta-1)\:d\theta-\frac{1}{8}\int sec\:\theta \:tan\:\theta\:d\theta+\frac{1}{32}\int sec^2\:\theta\:d\theta\\
+					&=\frac{1}{8}\int sec^2\:\theta\:d\theta-\frac{1}{8}\int d\theta-\frac{1}{8}\int sec\:\theta \:tan\:\theta\:d\theta+\frac{1}{32}\int sec^2\:\theta\:d\theta\\
+					&=\frac{5}{32}\int sec^2\:\theta\:d\theta-\frac{1}{8}\int d\theta-\frac{1}{8}\int sec\:\theta \:tan\:\theta\:d\theta
+					\intertext{Usando las fórmulas \ref{eqn:2.3.1}, \ref{eqn:2.3.9} y \ref{eqn:2.3.11},}
+					&=\frac{5}{32}tan\:\theta-\frac{1}{8}\theta-\frac{1}{8}sec\:\theta+C
+					\intertext{Con ayuda de la tabla \ref{tabla2}, es posible identificar que para el cambio de variable efectuado, $\theta=arc\:sen\:\frac{v}{a}$, $tan\:\theta=\frac{v}{\sqrt{a^2-v^2}}$ y $sec\:\theta=\frac{a}{\sqrt{a^2-v^2}}$, así que}
+					&=\frac{5}{32}\frac{2x+1}{\sqrt{2^2-(2x+1)^2}}-\frac{1}{8}arc\:sen \left(\frac{2x+1}{2}\right)-\frac{1}{8}\frac{2}{\sqrt{2^2-(2x+1)^2}}+C\\
+					&=\frac{5(2x+1)}{32\sqrt{3+4x-4x^2}}-\frac{1}{8}arc\:sen \left(\frac{2x+1}{2}\right)-\frac{2}{8\sqrt{3+4x-4x^2}}+C\\
+					&=\frac{10x+3}{32\sqrt{3+4x-4x^2}}-\frac{1}{8}arc\:sen \left(\frac{2x+1}{2}\right)+C
+	\end{align*}
+\end{problema}
+Como se vio en el problema anterior, el uso de identidades trigonométricas, junto a las fórmulas de integrales que poseen expresiones trigonométricas, permite resolver este tipo de integrales.
+
+Un paso importante, efectuado al final de la integral, es regresar la integral a una expresión en función de la variable inicial, para lo cual los triángulos de la tabla \ref{tabla2} fueron de gran ayuda.
+\begin{problema}[$\int\frac{x\:dx}{\sqrt{x^4+10x^2+50}}$]
+	Comencemos notando que $(x^2+5)^2=x^4+10x^2+25$, así que
+	\begin{align*}
+		\int\frac{x\:dx}{\sqrt{x^4+10x^2+50}}&=\int\frac{x\:dx}{\sqrt{5^2+(x^2+5)^2}}
+		\intertext{Notemos que la sustitución correspondiente es $x^2+5=5tan\:\theta$, con $2x\:dx=5sec^2\:\theta\:d\theta$, así que}
+					&=\int \frac{\frac{5sec^2\:\theta\:d\theta}{2}}{\sqrt{5^2+(5tan\:\theta)^2}}\\
+					&=\frac{5}{2}\int \frac{sec^2\:\theta\:d\theta}{\sqrt{5^2+5^2tan^2\:\theta}}\\
+					&=\frac{5}{2}\int \frac{sec^2\:\theta\:d\theta}{\sqrt{5^2(1+tan^2\:\theta)}}\\
+					&=\frac{5}{2}\int \frac{sec^2\:\theta\:d\theta}{\sqrt{5^2sec^2\:\theta}}\\
+					&=\frac{5}{2}\int \frac{sec^2\:\theta\:d\theta}{5sec\:\theta}\\
+					&=\frac{5}{2}\int sec\:\theta\:d\theta\\
+					&=\frac{5}{2}ln\left(tan\:\theta+sec\:\theta\right)+c
+					\intertext{De nuevo, con ayuda de la figura de la tabla \ref{tabla2}, podemos ver que $tan\:\theta=\frac{v}{a}$ y $sec\:\theta=\frac{\sqrt{a^2+v^2}}{a}$, con lo que}
+					&=\frac{5}{2}ln\left(\frac{x^2+5}{5}+\frac{\sqrt{x^4+10x^2+50}}{5}\right)+c\\
+					&=\frac{5}{2}ln\left(\frac{x^2+5+\sqrt{x^4+10x^2+50}}{5}\right)+c\\
+					&=\frac{5}{2}ln\left(x^2+5+\sqrt{x^4+10x^2+50}\right)-\frac{5}{2}ln(5)+c
+					\intertext{Finalmente, tomemos $C=c-\frac{5}{2}ln(5)$, entonces}
+					&=\frac{5}{2}ln\left(x^2+5+\sqrt{x^4+10x^2+50}\right)+C
+	\end{align*}
+\end{problema}
+\subsubsection{Ejercicios}
+\subsubsection{Problemas}
+\begin{align}
+	\int \frac{e^x\:dx}{\sqrt{1+e^{2x}}}
+\end{align}
+\subsection{Integración por partes}
+La tabla \ref{tabla1} posee la fórmula de derivada y de diferencial para el producto $uv$, lo cual es conocido como la \textbf{Regla de Leibniz}. En dicha tabla no aparece una fórmula para la obtención de la integral de un producto, ya que un solo factor, por muy simple que sea, puede complicar bastante la integral.
+
+Consideremos el problema \ref{ejercicio2.5.1}, $\int \frac{dx}{e^{2x}}$. La aparición del factor $x$ en el numerador, complica enormemente el proceso de integración, pues hasta ahora no tenemos los elementos necesarios para determinar $\int \frac{x\:dx}{e^{2x}}$, más aún, la aparición de factores adicionales en una integral ``sencilla'' o ``que ya sabemos realizar''. Por más pequeño que sea el cambio realizado, puede complicar mucho una integral.
+
+A continuación expondremos la idea detrás de la integración por partes. Comencemos con la fórmula \ref{eqn:1.3.6},
+\begin{align}
+	d(uv)&=u\:dv+v\:du\nonumber
+	\intertext{De lo anterior tenemos que}
+	u\:dv&=d(uv)-v\:du\nonumber
+	\intertext{Integrando ambos lados,}
+	\int u\:dv&=\int \left(d(uv)-v\:du\right)\nonumber\\
+			&=\int d(uv)-\int v\:du\nonumber
+			\intertext{Finalmente, por el Teorema Fundamental del Cálculo,}
+	\int u\:dv&=uv-\int v\:du\label{eqn:3.3.1}
+\end{align}
+
+La fórmula \ref{eqn:3.3.1} es conocida como la \textbf{Fórmula de Integración Por Partes} y su uso tiene como objetivo pasar de la integral $\int u\:dv$ a la integral $\int v\:du$, de manera que esta última sea más sencilla.
+
+Como pudimos ver en los problemas \ref{problema8} y \ref{problema9}, asumir que $du$ está compuesto por el resto de términos de la expresión puede causar errores importantes en el proceso de integración, sin embargo al efectuar una integración por partes, tras elegir $u$, el resto de términos conforman $dv$, sin embargo la elección de $u$ y $dv$ no siempre es evidente.
+
+Además de buscar que $\int v\:du$ sea más sencilla que la integral inicial, para la obtención de $v$ a partir de la elección de $dv$, es necesario que $dv$ se pueda integrar fácilmente, mientras que la obtención de $du$ a partir de $u$ consiste simplemente en diferenciar $u$, lo cual es bastante más sencillo.
+\begin{problema}[$\int x\:e^x\:dx$]\label{problema13}
+	Supongamos que $u=xe^x$, con lo que $dv=dx$, de esta forma $du=(xe^x+e^x)dx$ y $v=x$. Luego, usando la fórmula \ref{eqn:3.3.1} de integración por partes, obtenemos que
+	\begin{align*}
+		\int x\:e^x\:dx&=\int u\:dv\\
+					&=uv-\int v\:du\\
+					&=xe^x(x)-\int (x)(xe^x+e^x)dx\\
+					&=x^2e^x-\int x^2e^x\:dx-\int x\:e^x\:dx.
+	\end{align*}
+	Sin embargo, la aparición de $\int x^2e^x\:dx$, que es de un grado mayor que la integral inicial, indica que el problema es de mayor dificultad, así que hay que intentar con una elección distinta de $u$.
+	
+	Supongamos que $u=e^x$, con lo que $dv=x\: dx$, de esta forma $du=e^x\:dx$ y $v=\frac{x^2}{2}$. Luego,
+	\begin{align*}
+		\int x\:e^x\:dx&=\int u\:dv\\
+					&=uv-\int v\:du\\
+					&=\frac{x^2}{2}e^x-\int \frac{x^2}{2}e^x\:dx\\
+					&=\frac{x^2}{2}e^x-\frac{1}{2}\int x^2\:e^x\:dx,
+	\end{align*}
+	De nuevo nos encontramos con $\int x^2\:e^x\:dx$, es decir, se presentó la misma dificultad que con la elección de variables anteriores. Tomemos ahora $u=x$ y $dv=e^x\:dx$, así que $du=dx$ y $v=e^x$. Entonces,
+	\begin{align*}
+		\int x\:e^x\:dx&=\int u\:dv\\
+					&=uv-\int v\:du\\
+					&=x\:e^x-\int e^x\:dx\\
+					&=x\:e^x-e^x+C.
+	\end{align*}
+\end{problema}
+Como pudimos ver en el Problema \ref{problema13}, es muy importante que la elección de $u$ permita que $\int v\:du$ sea más sencilla que la integral inicial y no se vuelva más complicada.
+\begin{problema}[$\int\:x\:ln\:x$]\label{problema14}
+	Una manera de resolver esta integral de manera bastante natural es mediante el cambio de variable $x=e^y$. Intentemos un procedimiento alterno usando el proceso de integración por partes.
+	
+	La sugerencia anterior y la idea de que $u=x$ redujo el grado de la integral en el Problema \ref{problema13}, sugiere la elección de $u=x$, con lo que $dv$ queda determinada como $dv=ln\:x\:dx$, con lo que $du=dx$ y $v=\int x\:ln\:x\:dx$, que aunque puede resolverse mediante otra integral por partes\footnote{Véase el problema \ref{problema80}.}, por la complejidad que conlleva, por ahora consideraremos como una elección incorrecta, así que supondremos $u=ln\:x$, con lo que $dv=x\:dx$, $du=\frac{dx}{x}$ y $v=\frac{x^2}{2}$.
+	\begin{align*}
+		\int x\:ln\:x\:dx&=\int u\:dv\\
+					&=uv-\int v\:du\\
+					&=\frac{x^2}{2}\:ln\:x-\int \frac{x^2}{2}\frac{dx}{x}\\
+					&=\frac{x^2}{2}\:ln\:x-\frac{1}{2}\int x\:dx\\
+					&=\frac{x^2}{2}\:ln\:x-\frac{x^2}{4}+C
+	\end{align*}
+\end{problema}
+
+Como hemos visto, a diferencia de las derivadas, no existe un recetario bien definido de cuando utilizar un método o una fórmula. A partir del capítulo sobre integración por partes de \cite{simplificadas}, podemos obtener la tabla \ref{tabla3} con ``sugerencias'' respecto a la manera en la que se pueden elegir las variables para pasar de una integral complicada a otra más sencilla:
+\begin{center}
+	\begin{tabular}{|c|c|}
+		\hline
+		$u$&$dv$\\
+		\hline
+		Algebraica&Trigonométrica\\
+		Algebraica&Exponencial\\
+		Exponencial&Trigonométrica\\
+		Logarítmica&$dx$\\
+		Logarítmica&Algebraica\\
+		Inversa trigonométrica&$dx$\\
+		Inversa trigonométrica&Algebraica\\
+		\hline
+	\end{tabular}\label{tabla3}
+\end{center}
+Aunque los Problemas \ref{problema13} y \ref{problema14} respaldan la información presentada en \ref{tabla3}, hay que considerar que es posible encontrarse con integrales que, al intentar resolverse guiados por la tabla anterior, $\int v \:du$ sea más complicada que $\int u\:dv$, o bien, no sea posible obtener explícitamente $v=\int dv$, por lo que no debemos descartar otras posibles eleccciones de $u$ y $dv$.
+
+Es natural pensar que para calcular la integral $\int x^2\:e^x\:dx$, sin conocer el resultado del Problema \ref{problema13}, basta con efectuar el método de integración por partes 2 veces. Más aún, la aplicación iterativa del método de integración por partes, nos permite resolver integrales como la siguiente:
+\begin{problema}[$\int x^m e^{x}$, para $m\in\mathbb N\cup\{0\}$]
+	A partir de la fórmula \ref{eqn:2.3.6} y el problema \ref{problema13}, tenemos los primeros 2 casos:
+	\begin{equation}\label{eqn:3.3.2}
+		\int x^m\: e^x=\left\{\begin{matrix}e^x+C&\text{, si m=0}\\ e^x(x-1)+C&\text{, si m=1}\end{matrix}\right.
+	\end{equation}
+	Supongamos que $m=2$, tomemos entonces $u=x^2$ y $dv=e^x\:dx$, de manera que $du=2x\:dx$, y de la ecuación \ref{eqn:3.3.2}, tenemos que $v=e^x$, así que
+	\begin{align*}
+		\int x^2\: e^x&=x^2\:e^x-\int 2x\:e^x\:dx\\
+					&=x^2\:e^x-2\int x\:e^x\:dx
+		\intertext{De la ecuación \ref{eqn:3.3.2}, tenemos que}
+					&=x^2\:e^x-2(xe^x-e^x)+C\\
+					&=e^x(x^2-2x+2)+C
+	\end{align*}
+	Análogamente podemos obtener $\int x^3\: e^x\:dx=e^x(x^3-3x^2+6x-6)+C$.
+	De manera general, podemos obtener la siguiente expresión recursiva
+	\begin{align*}
+		\int x^m\: e^x&=x^me^x-m\int x^{m-1}e^x\:dx
+	\end{align*}
+	Una expresión explícita de la integral aparece en el ejercicio \ref{ej:3.3.1}.
+\end{problema}
+En ocasiones, el uso repetido de la fórmula de integración por partes, puede llevar incorrectamente a volver a la integral inicial, pues ocurre lo siguiente
+$$\int u\:dv=uv-\int v\:du=uv-\left(vu-\int u\:dv\right)=\int u\:dv$$
+Sin embargo, existen integrales específicas en las que aunque parece que se volvió a la integral inicial, se trata de integrales que se concluyen con un despeje, tal es el caso del Problema \ref{problema16}.
+\begin{problema}[$\int e^x\:sen\:x\:dx$]\label{problema16}
+	Veamos que al tomar $u=e^x$, tenemos que $dv=sen\:x\:dx$, $du=e^x\:dx$ y $v=-cos\:x$, entonces
+	\begin{align*}
+		\int e^x\:sen\:x\:dx&=-e^x\:cos\:x-\int (-cos\:x)e^x\:dx\\
+						&=-e^x\:cos\:x+\int e^x\:cos\:x\:dx
+		\intertext{Si tomamos $u$ de manera que $dv=e^x\:dx$, volveríamos a la integral inicial. Entonces tomemos $u=e^x$, con lo que $dv=cos\:x\:dx$, $du=e^x\:dx$ y $v=sen\:x$, entonces}
+		\int e^x\:sen\:x\:dx&=-e^x\:cos\:x+e^x\:sen\:x-\int e^x\:sen\:x\:dx
+		\intertext{Podemos ver que aunque aparece la misma integral a ambos lados de la igualdad, éstas poseen coeficientes distintos, así que podemos despejar de la siguiente manera, además de agregar la constante de integración:}
+		2\int e^x\:sen\:x\:dx&=-e^x\:cos\:x+e^x\:sen\:x\\
+		\int e^x\:sen\:x\:dx&=\frac{-e^x\:cos\:x+e^x\:sen\:x}{2}+C\\
+						&=e^x\left(\frac{sen\:x-cos\:x}{2}\right)+C
+	\end{align*}
+\end{problema}
+Un problema interesante en el que se combinan los dos artificios de integración estudiados hasta ahora es el siguiente:
+\begin{problema}[$\int \sqrt{x^2+1}dx$]
+	Usando la tabla \ref{tabla2}, efectuemos la sustitución $x=tan\:\theta$, de manera que $dx=sec^2\:\theta\:d\theta$, entonces
+	\begin{align}
+		\int \sqrt{x^2+1}dx&=\int \sqrt{tan^2\:\theta+1}sec^2\:\theta\:d\theta\nonumber\\
+		&=\int sec\:\theta\:sec^2\:\theta\:d\theta\nonumber\\
+		&=\int sec^3\:\theta\:d\theta\label{17a}
+	\end{align}
+	Veamos que
+	\begin{align}
+		\int sec^3\theta\:d\theta&=\int sec\:\theta\:sec^2\:\theta\:d\theta\nonumber\\
+		&=\int sec\:\theta\:(1+tan^2\:\theta)\:d\theta\nonumber\\
+		&=\int sec\:\theta\:d\theta+\int tan^2\theta\:sec\:\theta\:d\theta\nonumber\\
+		&=ln(tan\:\theta+sec\:\theta)+\int tan^2\:sec\:\theta\:d\theta\nonumber
+		\intertext{Supongamos que $u=tan\theta$, con lo que $dv=tan\:\theta\:sec\:\theta$, $du=sec^2\theta\:d\theta$, $v=sec\:\theta$, así que}
+		&=ln(tan\:\theta+sec\:\theta)+tan\:\theta\:sec\:\theta-\int sec^3\:\theta\:d\theta\nonumber\\
+		2\int sec^3\theta\:d\theta&=ln(tan\:\theta+sec\:\theta)+tan\:\theta\:sec\:\theta\nonumber\\
+		\int sec^3\theta\:d\theta&=\frac{ln(tan\:\theta+sec\:\theta)+tan\:\theta\:sec\:\theta}{2}+C\label{17b}
+	\end{align}
+	Al sustituir \ref{17b} en \ref{17a}, obtenemos
+	\begin{align*}
+		\int \sqrt{x^2+1}dx&=\frac{ln(tan\:\theta+sec\:\theta)+tan\:\theta\:sec\:\theta}{2}+C
+		\intertext{Ahora, a partir de la tabla \ref{tabla2}, podemos concluir que}
+		&=\frac{ln\left(x+\sqrt{x^2+1}\right)+x\sqrt{x^2+1}}{2}+C
+	\end{align*}
+\end{problema}
+\begin{problema}[$\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}$]
+Para resolver esta integral, comencemos resolviendo $\int\frac{e^{x}\:dx}{\sqrt{1-e^x}}$, pues la usaremos varias veces a lo largo de la solución. Tomemos $n=-\frac{1}{2}$ y $v=1-e^x$, con lo que $dv=-e^x\:dx$. Sustituyendo estos valores en \ref{eqn:2.3.4}
+	\begin{align}
+		\int\frac{e^{x}\:dx}{\sqrt{1-e^x}}&=-\frac{(1-e^x)^{-\frac{1}{2}+1}}{-\frac{1}{2}+1}+C\nonumber\\
+									&=-2\sqrt{1-e^x}+C\label{eqn:3.3.5}
+	\end{align}
+	Volviendo a la integral principal, tomemos $u=e^{2x}$ y $dv=\frac{e^{x}\:dx}{\sqrt{1-e^x}}$, con lo que $du=2e^{2x}\:dx$ y, de acuerdo a \ref{eqn:3.3.5}, $v=-2\sqrt{1-e^x}$, así que usando la fórmula de integración por partes,
+	\begin{align*}
+		\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}&=e^{2x}\left(-2\sqrt{1-e^x}\right)-\int \left(-2\sqrt{1-e^x}\right)2e^{2x}\:dx\\
+		&=-2e^{2x}\sqrt{1-e^x}+4\int e^{2x}\sqrt{1-e^x}\:dx\\
+		&=-2e^{2x}\sqrt{1-e^x}+4\int e^{2x}\frac{1-e^x}{\sqrt{1-e^x}}\:dx\\
+		&=-2e^{2x}\sqrt{1-e^x}+4\int \frac{e^{2x}}{\sqrt{1-e^x}}\:dx-4\int \frac{e^{3x}}{\sqrt{1-e^x}}\:dx
+	\end{align*}
+	Así que
+	\begin{align}
+		\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}+4\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}&=-2e^{2x}\sqrt{1-e^x}+4\int \frac{e^{2x}}{\sqrt{1-e^x}}\:dx\nonumber\\
+		5\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}&=-2e^{2x}\sqrt{1-e^x}+4\int \frac{e^{2x}}{\sqrt{1-e^x}}\:dx\label{eqn:3.3.6}
+	\end{align}
+Tomemos ahora $u=e^x$ y $dv=\frac{e^{x}\:dx}{\sqrt{1-e^x}}$, con lo que $du=e^x\:dx$ y $v=-2\sqrt{1-e^x}$, así que
+\begin{align*}
+		&=-2e^{2x}\sqrt{1-e^x}+4\left[(e^x)(-2\sqrt{1-e^x})-\int (-2\sqrt{1-e^x})e^x\:dx\right]\\
+		&=-2e^{2x}\sqrt{1-e^x}-8e^x\sqrt{1-e^x}+8\int e^x\sqrt{1-e^x}\:dx\\
+		&=-2e^{2x}\sqrt{1-e^x}-8e^x\sqrt{1-e^x}+8\int e^x\frac{1-e^x}{\sqrt{1-e^x}}\:dx\\
+		&=-2e^{2x}\sqrt{1-e^x}-8e^x\sqrt{1-e^x}+8\int \frac{e^x}{\sqrt{1-e^x}}\:dx-2\left(4\int \frac{e^{2x}}{\sqrt{1-e^{x}}}\:dx\right)
+		\intertext{De las ecuaciones \ref{eqn:3.3.5} y \ref{eqn:3.3.6}, tenemos que}
+		&=-2e^{2x}\sqrt{1-e^x}-8e^x\sqrt{1-e^x}+8\left(-2\sqrt{1-e^x}\right)-2\left(5\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}+2e^{2x}\sqrt{1-e^x}\right)\\
+		&=-2e^{2x}\sqrt{1-e^x}-8e^x\sqrt{1-e^x}-16\sqrt{1-e^x}-10\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}-4e^{2x}\sqrt{1-e^x}\\
+		&=-6e^{2x}\sqrt{1-e^x}-8e^x\sqrt{1-e^x}-16\sqrt{1-e^x}-10\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}
+	\end{align*}
+	Entonces,
+	\begin{align*}
+		5\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}+10\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}&=-6e^{2x}\sqrt{1-e^x}-8e^x\sqrt{1-e^x}-16\sqrt{1-e^x}
+		\intertext{Así que}
+		15\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}&=-6e^{2x}\sqrt{1-e^x}-8e^x\sqrt{1-e^x}-16\sqrt{1-e^x}
+		\intertext{Finalmente,}
+		\int\frac{e^{3x}\:dx}{\sqrt{1-e^x}}&=-\frac{6}{15}e^{2x}\sqrt{1-e^x}-\frac{8}{15}e^x\sqrt{1-e^x}-\frac{16}{15}\sqrt{1-e^x}+C\\
+		&=-\frac{2}{15}\sqrt{1-e^x}\left(3e^{2x}+4e^x+8\right)+C
+	\end{align*}
+\end{problema}
+\subsubsection{Ejercicios}
+\begin{align}
+	\int x^m\:e^x\:dx&=e^x\left(\sum_{i=0}^m (-1)^i\frac{m!}{(m-i)!}x^{m-i}\right)+C\text{ para }m\in \mathbb N\cup\{0\}\label{ej:3.3.1}
+\end{align}
+\subsubsection{Problemas}
+\begin{align}
+	\int cos^2\:y\:dy\label{problema3.3.2.1}
+\end{align}
+\subsection{Descomposición de fracciones racionales}
+Cuando la integral es de la forma $\int \frac{R(x)}{Q(x)}dx$, donde $R(x)$ y $Q(x)$ son ambos polinomios, el primer paso a realizarse de manera natural, es simplificar la fracción mediante el algoritmo de la división, es decir, elegir $S(x)$ y $P(x)$ tales que $S(x)=\frac{R(x)-P(x)}{Q(x)}$ es un polinomio, posiblemente constante, y que $P(x)$ es de grado menor que $Q(x)$, de esta forma la integral queda de la forma
+\begin{align*}
+	\int \frac{R(x)}{Q(x)}dx&=\int \left(S(x)+\frac{P(x)}{Q(x)}\right)dx\\
+						&=\int S(x)\:dx+\int\frac{P(x)}{Q(x)}dx
+\end{align*}
+Como $S(x)$ es un polinomio, es fácilmente integrable usando solamente las fórmulas \ref{eqn:2.3.2} a \ref{eqn:2.3.4}.
+
+Un método para efectuar algunos casos de la integral $\int \frac{P(x)}{Q(x)}$ es la llamada descomposición de fracciones parciales, que aunque solía ser un tema puramente algebraico, ya no es tan estudiado y se explica a continuación.
+
+Comencemos explicando de manera ilustrativa uno de los casos:
+
+Supongamos que al factorizar $Q(x)$, todos sus factores son lineales y distintos, es decir $Q(x)=\Pi_{i}(a_1x+b_1)$, tales que si $i\neq j$, entonces $(a_i-a_j)x+(b_i-b_j)\neq0$. Es posible elegir $A_1,A_2,\ldots,A_n\in\mathbb R$ tales que
+\begin{align*}
+	\frac{P(x)}{Q(x)}&=\sum_{i}\frac{A_i}{a_ix+b_i}
+ 	 \intertext{Al efectuar explícitamente la suma e igualar los coeficientes de los polinomios de los numeradores, se obtiene un sistema lineal de ecuaciones para determinar los coeficientes $A_i$, para posteriormente usar la fórmula \ref{eqn:2.3.3} para descomponer la integral en varias integrales más sencillas de la siguiente forma:}
+ 	 \int 	\frac{P(x)}{Q(x)}dx&=\int\sum_{i}\frac{A_i}{a_ix+b_i}dx\\
+ 	 					&=\sum_{i}\int\frac{A_i}{a_ix+b_i}dx
+\end{align*}
+Para no quedar solo con coeficientes, vale la pena efectuar una integral de este tipo para terminar de entender la utilidad del método:
+\begin{problema}[$\int \frac{x^3+8x^2+22x+29}{x^2+8x+15}dx$]
+	Comencemos notando que $\frac{2x^3+16x^2+37x+29}{x^2+8x+15}=2x+\frac{7x+29}{x^2+8x+15}$, así que
+	\begin{align}
+		\int \frac{x^3+8x^2+22x+29}{x^2+8x+15}dx&=\int \left(2x+\frac{7x+29}{x^2+8x+15}\right)dx\nonumber\\
+		&=2\int x\:dx+\int \frac{7x+29}{x^2+8x+15}dx\nonumber\\
+		&=x^2+\int \frac{7x+29}{x^2+8x+15}dx\label{18a}
+		\intertext{Notando que $x^2+8x+15=(x+5)(x+3)$, vemos que}
+		\frac{7x+29}{x^2+8x+15}&=\frac{A_1}{x+5}+\frac{A_2}{x+3}\nonumber\\
+							&=\frac{A_1(x+3)+A_2(x+5)}{(x+5)(x+3)}\nonumber\\
+							&=\frac{(A_1+A_2)x+(3A_1+5A_2)}{x^2+8x+15}\nonumber
+		\intertext{De lo anterior tenemos que $A_1+A_2=7$ y $3A_1+5A_2=29$. La solución de tal sistema es $A_1=3,A_2=4$, así que}
+		\frac{7x+29}{x^2+8x+15}&=\frac{3}{x+5}+\frac{4}{x+3}\label{18b}
+		\intertext{Al sustituir \ref{18b} en \ref{18a}, obtenemos}
+		\int \frac{x^3+8x^2+22x+29}{x^2+8x+15}dx&=x^2+\int\left(\frac{3}{x+5}+\frac{4}{x+3}\right)dx\nonumber\\
+		&=x^2+3\int\frac{dx}{x+5}+4\int\frac{dx}{x+3}\nonumber\\
+		&=x^2+3ln(x+5)+4ln(x+3)+C\nonumber\\
+		&=x^2+ln\left[(x+5)^3(x+3)^4\right]+C\nonumber
+	\end{align}
+\end{problema}
+La tabla \ref{tabla4} permite ver el tipo de descomposición en fracciones parciales correspondiente a algunos los casos de factorización de $Q(x)$ más estudiados.
+\begin{center}
+	\begin{tabular}{|c|c |c |c|}
+		\hline
+		Caso&Factorización&Descripción&Descomposición\\
+		&de $Q(x)$&&correspondiente\\
+	\hline
+		&$\Pi_{i=1}^n(a_ix+b_i)$	&Factores	&\\
+		I&t.q. si $i\neq j$, entonces	&lineales	&$\sum_{i}\frac{A_i}{a_ix+b_i}$\\
+		&$(a_i-a_j)x+(b_i-b_j)\neq0$	&distintos	&\\
+		\hline
+		&&Potencia de&\\ II&$(ax+b)^n$&un factor &$\sum_{i=1}^n\frac{B_i}{(ax+b)^i}$\\&&lineal&\\
+		\hline
+		&$\Pi_{i=1}^n(a_ix^2+b_i+c_i)$	&Factores		&\\
+		II&t.q. si $i\neq j$, entonces	&cuadráticos	&$\sum_{i}\frac{C_ix+D_i}{a_ix^2+b_ix+c_i}$\\
+		III&$(a_i-a_j)x^2+(b_i-b_j)x$&distintos		&\\&$+(c_i-c_j)\neq0$&&\\
+		\hline
+		&&Potencia de&\\ IV&$(ax^2+bx+c)^n$&un factor &$\sum_{i=1}^n\frac{E_ix+F_i}{(ax^2+bx+c)^i}$\\&&cuadrático&\\
+		\hline
+	\end{tabular}\label{tabla4}
+\end{center}
+La tabla \ref{tabla4} sirve para obtener descomposiciones en fracciones parciales de combinaciones de los distintos casos, como se muestra en los siguientes ejemplos:
+\begin{problema}[$\frac{4y^2-8}{y^3+2y^2}$]
+	Notemos que $y^3-2y^2=y^2(y+2)$, así que requerimos utilizar los casos I y III de la tabla \ref{tabla4}. Sean $B_1,B_2,A_1$ tales que
+	\begin{align*}
+		\frac{4y^2-8}{y^3+2y^2}&=\frac{B_1}{y}+\frac{B_2}{y^2}+\frac{A_1}{y+2}\\
+							&=\frac{B_1y(y+2)+B_2(y+2)+A_1y^2}{y^2(y+2)}\\
+							&=\frac{(A_1+B_1)y^2+(2B_1+B_2)y+2B_2}{y^3+2y^2}.
+		\intertext{Al igualar los coeficientes de los numeradores, obtenemos el sistema $A_1+B_1=4$, $2B_1+B_2=0$ y $2B_2=-8$, con soluciones $A_1=2,B_1=2,B_2=-4$, así que la integral pasa a tener la forma}
+		\int \frac{4y^2-8}{y^3+2y^2} dy&=\int \left(\frac{2}{y}-\frac{4}{y^2}+\frac{2}{y+2}\right)dy\\
+								&=2\int\frac{dy}{y}-4\int y^{-2}\:dy+2\int\frac{dy}{y+2}\\
+								&=2ln\:y-4\frac{y^{-1}}{-1}+2ln(y+2)+C\\
+								&=ln\left[y^2(y+2)^2\right]+\frac{4}{y}+C.
+	\end{align*}
+\end{problema}
+\begin{problema}[$\int\frac{4x^2+3x+8}{x^5+4x^3+4x}dx$]
+	Notemos que $x^5+4x^2+4x=x(x^2+2)^2$, así que se usan los casos I y IV de la tabla \ref{tabla4}. Sean $A_1, E_1,E_2,F_1$ y $F_2$ tales que
+	\begin{align*}
+	\frac{4x^2+3x+8}{x^5+4x^3+4x}&=\frac{A_1}{x}+\frac{E_1x+F_1}{x^2+2}+\frac{E_2x+F_2}{(x^2+2)^2}\\
+					&=\frac{A_1(x^2+2)^2+(E_1x+F_1)x(x^2+2)+(E_2x+F_2)x}{x(x^2+2)^2}\\
+					&=\frac{(A_1+E_1)x^4+F_1x^3+(4A_1+2E_1+E_2)x^2+(2F_1+F_2)x+4A_1}{x^5+4x^3+4x}
+					\intertext{Al igualar los coeficientes de los numeradores, obtenemos el sistema $$A_1+E_1=0,F_1=0,4A_1+2E_1+E_2=4,2F_1+F_2=3,4A_1=8,$$cuya solución es $A_1=2,E_1=-2,E_2=0,F_1=0,F_2=3$, así que podemos reescribir la integral como}
+	\int \frac{4x^2+3x+8}{x^5+4x^3+4x}dx&=\int\left(\frac{2}{x}+\frac{-2x}{x^2+2}+\frac{3}{(x^2+2)^2}\right)\\
+	&=2\int\frac{dx}{x}-\int \frac{2x\:dx}{x^2+2}+3\int \frac{dx}{(x^2+2)^2}\\
+	&=2ln\:x-ln(x^2+2)+3\int  \frac{dx}{\left(x^2+\sqrt{2}^2\right)^2}
+	\intertext{Notemos que en la integral restante podemos usar la sustitución trigonométrica $x=\sqrt2\:tan\:\theta$ de la tabla \ref{tabla2}, así que $dx=\sqrt 2\:sec^2\:\theta\:d\theta$, luego}
+	&=2ln\:x-ln(x^2+2)+3\int  \frac{\sqrt{2}sec^2\:\theta\:d\theta}{\left(2tan^2\:\theta+2\right)^2}\\
+	&=2ln\:x-ln(x^2+2)+3\int  \frac{\sqrt{2}sec^2\:\theta\:d\theta}{\left[\left(2\right)\left(tan^2\:\theta+1\right)\right]^2}\\
+	&=2ln\:x-ln(x^2+2)+3\int  \frac{\sqrt{2}sec^2\:\theta\:d\theta}{\left[2sec^2\:\theta\right]^2}\\
+	&=2ln\:x-ln(x^2+2)+3\int  \frac{\sqrt{2}sec^2\:\theta\:d\theta}{4sec^4\:\theta}\\
+	&=2ln\:x-ln(x^2+2)+\frac{3\sqrt 2}{4}\int  \frac{d\theta}{sec^2\:\theta}\\
+	&=2ln\:x-ln(x^2+2)+\frac{3\sqrt 2}{4}\int  cos^2\:\theta\:d\theta
+	\intertext{Ya que $cos^2\theta=\frac{cos\:2\theta+1}{2}$, entonces\footnote{Para un procedimiento alterno, véase el Problema \ref{problema3.3.2.1}}}
+	&=2ln\:x-ln(x^2+2)+\frac{3\sqrt 2}{4}\int \frac{cos\:2\theta+1}{2} d\theta\\
+	&=2ln\:x-ln(x^2+2)+\frac{3\sqrt 2}{8}\int cos\:2\theta d\theta+\frac{3\sqrt2}{8}\int d\theta\\
+	&=ln\left(\frac{x^2}{x^2+2}\right)+\frac{3\sqrt 2}{16}\int 2cos\:2\theta d\theta+\frac{3\sqrt2}{8}\int d\theta\\
+	&=ln\left(\frac{x^2}{x^2+2}\right)+\frac{3\sqrt 2}{16}sen\:2\theta+\frac{3\sqrt2}{8}\theta+C
+	\intertext{Además, como $sen\:2\theta=2sen\:\theta\:cos\:\theta$, entonces}
+	&=ln\left(\frac{x^2}{x^2+2}\right)+\frac{3\sqrt 2}{8}sen\:\theta\:cos\:\theta+\frac{3\sqrt2}{8}\theta+C
+	\intertext{Finalmente, usando la tabla \ref{tabla2}, podemos notar que $sen\theta=\frac{v}{\sqrt{a^2+v^2}}$, $cos\theta=\frac{a}{\sqrt{a^2+v^2}}$ y $\theta=arc\:tan\:\frac{v}{a}$, así que}
+	&=ln\left(\frac{x^2}{x^2+2}\right)+\frac{3\sqrt 2}{8}\frac{x}{\sqrt{x^2+2}}\frac{\sqrt 2}{\sqrt{x^2+2}}+\frac{3\sqrt2}{8}arc\:tan\:\frac{x}{\sqrt{2}}+C\\
+	&=ln\left(\frac{x^2}{x^2+2}\right)+\frac{3x}{4x^2+8}+\frac{3\sqrt2}{8}arc\:tan\:\frac{x}{\sqrt{2}}+C
+\end{align*}
+\end{problema}
+Aunque parece que el proceso se puede extender de manera intuitiva para aquellos casos en que $Q(x)$ se puede factorizar hasta polinomios de grado mayor a $2$, los sumandos de la descomposición no necesariamente se pueden integrar en los reales, tal es el caso de
+$$\int\frac{x+5}{x^3-2x^2+x+7}dx$$
+cuya expresión explícita requiere de temas de variable compleja para ser expresada.
+\subsubsection{Ejercicios}
+\subsubsection{Problemas}
+\subsubsection{Exponentes racionales}
+Hasta ahora hemos trabajado con expresiones en las que la variable sobre la que estamos integrando posee un exponente entero, sin embargo vale la pena estudiar también aquellas integrales que poseen expresiones con exponentes racionales.
+
+La manera más simple de abordar tales integrales es efectuar un cambio de variable algebraico siguiendo el proceso que se describe a continuación, suponiendo sin pérdida de generalidad que la variable sobre la que estamos integrando es $x$.
+\begin{enumerate}
+	\item Sea $(d_1,d_2,\ldots)$ la lista de todos los denominadores de los exponentes de todas las apariciones de $x$ en la integral. En caso de contar con exponentes enteros, estos poseerán, naturalmente, denominador 1.
+	\item Sea $m=mcm(d_1,d_2,\ldots)$ el mínimo común múltiplo de tales denominadores.
+	\item Realizamos el cambio de variable $z^m=x$.
+\end{enumerate}
+El cambio de variable anterior permite convertir la integral en una que posee solo exponentes enteros, permitiéndonos emplear de forma usual las herramientas utilizadas en secciones previas.
+\begin{problema}[$\int \frac{dx}{\sqrt{x}+\sqrt[4]{x}}$]
+	Notemos que los denominadores de los exponentes que aparecen son ambos $2$ y $4$, con $mcm(2,4)=4$, así que el cambio de variable a efectuarse es $x=z^4$. Luego,
+	\begin{align*}
+		\int \frac{dx}{\sqrt{x}+\sqrt[4]{x}}&=\int \frac{4z^3\:dz}{z^2+z}\\
+									&=4\int \frac{z^2\:dz}{z+1}\\
+									&=4\int \frac{z^2-1+1}{z+1}dz\\
+									&=4\left(\int \frac{z^2-1}{z+1}dz+\int\frac{dz}{z+1}\right)\\
+									&=4\int (z-1)\:dz+4\int\frac{dz}{z+1}\\
+	\end{align*}
+\end{problema}
+
+\textcolor{red}{hablar del mcm y eso}
+\subsubsection{Integrales de diferencias binomias}
+\textcolor{red}{Mencionar que el caso general ¿se puede? hacer con integración por partes}
+\newpage
+\section{Algunas integrales resueltas}
+Con el fin de explorar el uso de los distintos artificios de integración, a continuación se exponen algunas integrales junto a su método de resolución con la finalidad de exponer la utilidad ...
+
+mostrar algunas ideas útiles...
+\begin{thebibliography}{9}
+	\bibitem{Granville} GRANVILLE, SMITH, LONGLEY: Cálculo diferencial e integral.(1974) (Uteha) México D. F.
+
+\end{thebibliography}
+
+\end{document}
