@@ -1,4 +1,4 @@
-name: Force Upload PDF to GitLab
+name: Upload PDF to GitLab
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
       - name: Checkout GitHub repo
         uses: actions/checkout@v3
 
-      - name: Step 1 – Borrar PDF en GitLab
+      - name: Step 1: Borrar versión anterior del PDF en GitLab
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
@@ -22,24 +22,7 @@ jobs:
           git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
           cd repo-gitlab
 
-          rm -f assets/sources/Publications/Integral/Integración.pdf
-          git add assets/sources/Publications/Integral/Integración.pdf
-          git commit -m "Paso 1: Borrar PDF para forzar actualización" || echo "Nada que commitear"
-          git push
-
-      - name: Step 2 – Subir nuevo PDF a GitLab
-        env:
-          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
-        run: |
-          git config --global user.name "Victor Garcia (GitHub Action)"
-          git config --global user.email "victor@example.com"
-
-          git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
-          cd repo-gitlab
-
-          mkdir -p assets/sources/Publications/Integral
-          cp ../Integración.pdf assets/sources/Publications/Integral/
-
-          git add assets/sources/Publications/Integral/Integración.pdf
-          git commit -m "Paso 2: Subir nueva versión del PDF desde GitHub"
+          rm -f assets/sources/Publications/Integral/Integración.pdf || echo "No había PDF anterior"
+          git add assets/sources/Publications/Integral/Integración.pdf || true
+          git commit -m "Paso 1: Eliminar versión anterior del PDF" || echo "Nada que commitear"
           git push
