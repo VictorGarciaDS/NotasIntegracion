@@ -41,7 +41,7 @@ jobs:
           # Primero actualiza desde remoto antes de hacer cambios locales
           git pull --rebase origin main
 
-          run: latexmk -pdf -interaction=nonstopmode Integracion.tex
+          latexmk -pdf -interaction=nonstopmode Integracion.tex
 
           # Luego añade el nuevo PDF y haz commit
           git add Integracion.pdf
