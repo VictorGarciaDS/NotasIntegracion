@@ -30,8 +30,8 @@ jobs:
       - name: Commit and push removal
         run: |
           cd repo-gitlab
-          git add assets/sources/Publications/Integral/Integración.pdf
-          git commit -m "Removed old Integración.pdf from GitHub Action"
+          git add -A
+          git commit -m "Removed old Integración.pdf from GitHub Action" || echo "Nothing to commit"
           git push origin main
 
       - name: Copy new PDF to GitLab repo
