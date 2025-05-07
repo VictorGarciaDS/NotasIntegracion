@@ -6,18 +6,24 @@ on:
       - main
 
 jobs:
-  upload:
+  delete_old_pdf:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Step 1: Borrar versión anterior del PDF en GitLab
+      - name: Step 1: Eliminar PDF antiguo en GitLab
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
           git config --global user.name "Victor Garcia (GitHub Action)"
           git config --global user.email "victor@example.com"
 
-          git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
-          cd repo-gitlab
+          git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo
+          cd repo
+
+          if [ -f assets/sources/Publications/Integral/Integración.pdf ]; then
+            rm assets/sources/Publications/Integral/Integración.pdf
+            git add assets/sources/Publications/Integral/Integración.pdf
+            git commit -m "Eliminación del PDF desde GitHub Actions"
+            git push
+          else
+            echo "El archivo no existe. No hay nada que eliminar."
+          fi
