@@ -1,4 +1,4 @@
-name: Compilar documento LaTeX
+name: Compilar y sincronizar Integracion.pdf
 
 on:
   push:
@@ -14,17 +14,17 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write  # 🔑 Permite hacer push al repositorio
+  contents: write  # Permite hacer push al repositorio
 
 jobs:
-  build:
+  build: #Es solo el nombre
     runs-on: ubuntu-latest
 
     steps:
-      - name: Entrar al repositorio
+      - name: Entrar al repositorio (GitHub)
         uses: actions/checkout@v3
 
-      - name: Instalar dependencias de LaTeX
+      - name: Instalar LaTeX y dependencias
         run: |
           sudo apt-get update
           sudo apt-get install -y texlive-latex-recommended texlive-latex-extra latexmk texlive-lang-spanish
@@ -32,7 +32,7 @@ jobs:
       - name: Compilar archivo Integracion.tex
         run: latexmk -pdf -interaction=nonstopmode Integracion.tex
 
-      - name: Verificar existencia de Integracion.pdf
+      - name: Verificar existencia de Integracion.pdf #Pendiente de quitar
         run: test -f Integracion.pdf
 
       - name: Configurar Git
@@ -47,3 +47,35 @@ jobs:
           git add Integracion.pdf
           git commit -m "Actualizar Integracion.pdf compilado automáticamente" || echo "Sin cambios"
           git push https://x-access-token:${TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
+
+      - name: Clonar repo de GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+        run: |
+          git config --global user.name "Victor Garcia (GitHub Action)"
+          git config --global user.email "victor.garcia@cimat.mx"
+
+          # Clona el repositorio de GitLab
+          git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
+
+          # Elimina el PDF anterior
+          rm -f repo-gitlab/assets/sources/Publications/Integral/Integracion.pdf
+
+      - name: Commit and push removal
+        run: |
+          cd repo-gitlab
+          git add -A
+          git commit -m "Removed old Integracion.pdf from GitHub Action" || echo "Nothing to commit"
+          git push origin main
+
+      - name: Copy new PDF to GitLab repo
+        run: |
+          cp Integracion.pdf repo-gitlab/assets/sources/Publications/Integral/
+          echo "copiado nuevo PDF"
+
+      - name: Commit and push new PDF
+        run: |
+          cd repo-gitlab
+          git add assets/sources/Publications/Integral/Integracion.pdf
+          git commit -m "Uploaded new Integracion.pdf from GitHub Action"
+          git push origin main
