@@ -29,12 +29,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y texlive-latex-recommended texlive-latex-extra latexmk texlive-lang-spanish
 
-      - name: Compilar archivo Integracion.tex
-        run: latexmk -pdf -interaction=nonstopmode Integracion.tex
-
-      - name: Verificar existencia de Integracion.pdf #Pendiente de quitar
-        run: test -f Integracion.pdf
-
       - name: Configurar Git
         run: |
           git config --global user.name "github-actions[bot]"
@@ -45,7 +39,9 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Primero actualiza desde remoto antes de hacer cambios locales
-          git pull --rebase origin ${{ github.ref_name }}
+          git pull --rebase origin main
+
+          run: latexmk -pdf -interaction=nonstopmode Integracion.tex
 
           # Luego añade el nuevo PDF y haz commit
           git add Integracion.pdf
