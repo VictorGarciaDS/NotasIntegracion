@@ -18,14 +18,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clonar el repositorio
+      - name: Entrar al repositorio
         uses: actions/checkout@v3
 
       - name: Instalar dependencias de LaTeX
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-full latexmk
-          sudo apt-get install -y texlive-tkz tkz-doc
+          sudo apt-get install -y texlive-latex-recommended texlive-latex-extra latexmk
+
+      - name: Instalar manualmente tkz
+        run: |
+          mkdir -p ~/texmf/tex/latex/tkz-euclide
+          cd ~/texmf/tex/latex/tkz-euclide
+          curl -LO https://mirrors.ctan.org/macros/latex/contrib/tkz/tkz-euclide.zip
+          unzip tkz-euclide.zip -d ~/
+          texhash ~/texmf
 
       - name: Compilar Integracion.tex
         run: |
