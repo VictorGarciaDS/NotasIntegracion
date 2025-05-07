@@ -12,26 +12,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Upload to GitLab
+      - name: Step 1: Borrar versión anterior del PDF en GitLab
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
           git config --global user.name "Victor Garcia (GitHub Action)"
           git config --global user.email "victor@example.com"
 
-          # Clonar el repo de GitLab
           git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
           cd repo-gitlab
-
-          # Eliminar el PDF existente para forzar reemplazo
-          rm -f assets/sources/Publications/Integral/Integración.pdf
-          mkdir -p assets/sources/Publications/Integral
-          cp ../Integración.pdf assets/sources/Publications/Integral/
-
-          # Confirmar cambios
-          git add assets/sources/Publications/Integral/Integración.pdf
-          git status  # Para depuración
-          
-          # Commit y push si hay cambios
-          git diff --cached --quiet || git commit -m "Actualización automática del PDF desde GitHub"
-          git push
