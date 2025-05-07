@@ -25,13 +25,10 @@ jobs:
           git config --global user.email "victor.garcia@cimat.mx"
 
           # Clona el repo de GitLab en una carpeta temporal
-          run: echo "Antes de clonar"
           git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
-          run: echo "Despues de clonar"
           cd repo-gitlab
 
           # Eliminar el PDF existente para forzar reemplazo
-          run: echo "Antes de eliminar el actual"
           rm -f assets/sources/Publications/Integral/Integración.pdf
 
           # Copia el PDF desde el repo de GitHub
