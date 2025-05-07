@@ -1,0 +1,36 @@
+name: Compilar documento LaTeX
+
+on:
+  push:
+    paths:
+      - 'assets/sources/Publications/Integral/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar dependencias de LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-full latexmk
+
+      - name: Compilar Integracion.tex
+        working-directory: assets/sources/Publications/Integral
+        run: |
+          latexmk -pdf -interaction=nonstopmode -halt-on-error Integracion.tex
+
+      - name: Configurar Git
+        run: |
+          git config --global user.name "Victor Garcia"
+          git config --global user.email "victor.garcia@cimat.mx"
+
+      - name: Subir Integracion.pdf al repositorio
+        run: |
+          git add assets/sources/Publications/Integral/Integracion.pdf
+          git commit -m "Actualizar Integracion.pdf compilado automáticamente"
+          git push
