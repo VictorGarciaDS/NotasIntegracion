@@ -23,23 +23,23 @@ jobs:
           git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
 
           # Elimina el PDF anterior
-          rm -f repo-gitlab/assets/sources/Publications/Integral/Integración.pdf
+          rm -f repo-gitlab/assets/sources/Publications/Integral/Integracion.pdf
 
       - name: Commit and push removal
         run: |
           cd repo-gitlab
           git add -A
-          git commit -m "Removed old Integración.pdf from GitHub Action" || echo "Nothing to commit"
+          git commit -m "Removed old Integracion.pdf from GitHub Action" || echo "Nothing to commit"
           git push origin main
 
       - name: Copy new PDF to GitLab repo
         run: |
-          cp Integración.pdf repo-gitlab/assets/sources/Publications/Integral/
+          cp Integracion.pdf repo-gitlab/assets/sources/Publications/Integral/
           echo "copiado nuevo PDF"
 
       - name: Commit and push new PDF
         run: |
           cd repo-gitlab
-          git add assets/sources/Publications/Integral/Integración.pdf
-          git commit -m "Uploaded new Integración.pdf from GitHub Action"
+          git add assets/sources/Publications/Integral/Integracion.pdf
+          git commit -m "Uploaded new Integracion.pdf from GitHub Action"
           git push origin main
