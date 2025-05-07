@@ -33,3 +33,15 @@ jobs:
           git add assets/sources/Publications/Integral/Integración.pdf
           git commit -m "Removed old Integración.pdf from GitHub Action"
           git push origin main
+
+      - name: Copy new PDF to GitLab repo
+        run: |
+          cp Integración.pdf repo-gitlab/assets/sources/Publications/Integral/
+          echo "copiado nuevo PDF"
+
+      - name: Commit and push new PDF
+        run: |
+          cd repo-gitlab
+          git add assets/sources/Publications/Integral/Integración.pdf
+          git commit -m "Uploaded new Integración.pdf from GitHub Action"
+          git push origin main
