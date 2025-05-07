@@ -45,7 +45,7 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add Integracion.pdf
-          git commit -m "Actualizar Integracion.pdf compilado automáticamente" || echo "Sin cambios"
+          git commit -m "Compilado automático de Integracion.pdf a partir del commit ${{ github.event.head_commit.message }}" || echo "Sin cambios"
           git push https://x-access-token:${TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
 
       - name: Clonar repo de GitLab
@@ -65,7 +65,7 @@ jobs:
         run: |
           cd repo-gitlab
           git add -A
-          git commit -m "Removed old Integracion.pdf from GitHub Action" || echo "Nothing to commit"
+          git commit -m "GitHub Action para remover la versión anterior de Integracion.pdf" || echo "Nothing to commit"
           git push origin main
 
       - name: Copy new PDF to GitLab repo
@@ -77,5 +77,5 @@ jobs:
         run: |
           cd repo-gitlab
           git add assets/sources/Publications/Integral/Integracion.pdf
-          git commit -m "Uploaded new Integracion.pdf from GitHub Action"
+          git commit -m "Se actualizó Integracion.pdf desde GitHub Action a partir del commit ${{ github.event.head_commit.message }}"
           git push origin main
