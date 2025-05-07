@@ -1,9 +1,7 @@
-name: Upload PDF to GitLab
+name: Delete PDF from GitLab
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   delete_old_pdf:
