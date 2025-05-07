@@ -24,8 +24,8 @@ jobs:
       - name: Instalar dependencias de LaTeX
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-full latexmk texlive-pictures texlive-science texlive-latex-extra
-          
+          sudo apt-get install -y texlive-full latexmk
+          sudo apt-get install -y texlive-tkz tkz-doc
 
       - name: Compilar Integracion.tex
         run: |
