@@ -22,17 +22,23 @@ jobs:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
           git config --global user.name "Victor Garcia (GitHub Action)"
-          git config --global user.email "victor@example.com"
+          git config --global user.email "victor.garcia@cimat.mx"
 
           # Clona el repo de GitLab en una carpeta temporal
           git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
           cd repo-gitlab
 
+          # Eliminar el PDF existente para forzar reemplazo
+          rm -f assets/sources/Publications/Integral/Integración.pdf
+
           # Copia el PDF desde el repo de GitHub
           mkdir -p assets/sources/Publications/Integral
           cp ../Integración.pdf assets/sources/Publications/Integral/
 
-          # Commit y push
+          # Confirmar cambios
           git add assets/sources/Publications/Integral/Integración.pdf
-          git commit -m "Actualización automática del PDF desde GitHub" || echo "Nada que commitear"
+          git status  # Para depuración
+          
+          # Commit y push si hay cambios
+          git diff --cached --quiet || git commit -m "Actualización automática del PDF desde GitHub"
           git push
