@@ -28,7 +28,7 @@ jobs:
 
       - name: Compilar Integracion.tex
         run: |
-          latexmk -pdf -interaction=nonstopmode -halt-on-error Integracion.tex
+          latexmk -pdf -shell-escape -interaction=nonstopmode -halt-on-error Integracion.tex
 
       - name: Configurar Git
         run: |
