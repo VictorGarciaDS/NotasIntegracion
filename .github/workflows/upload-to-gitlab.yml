@@ -6,11 +6,6 @@ on:
       - main
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Say hello
-        run: echo "¡Hola desde GitHub Actions!"
   upload:
     runs-on: ubuntu-latest
     steps:
@@ -22,16 +17,14 @@ jobs:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
           git config --global user.name "Victor Garcia (GitHub Action)"
-          git config --global user.email "victor.garcia@cimat.mx"
+          git config --global user.email "victor@example.com"
 
-          # Clona el repo de GitLab en una carpeta temporal
+          # Clonar el repo de GitLab
           git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
           cd repo-gitlab
 
           # Eliminar el PDF existente para forzar reemplazo
           rm -f assets/sources/Publications/Integral/Integración.pdf
-
-          # Copia el PDF desde el repo de GitHub
           mkdir -p assets/sources/Publications/Integral
           cp ../Integración.pdf assets/sources/Publications/Integral/
 
