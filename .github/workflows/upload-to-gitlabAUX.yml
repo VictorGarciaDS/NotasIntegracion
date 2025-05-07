@@ -11,3 +11,28 @@ jobs:
     steps:
       - name: Say hello
         run: echo "¡Hola desde GitHub Actions!"
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Upload to GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+        run: |
+          git config --global user.name "Victor Garcia (GitHub Action)"
+          git config --global user.email "victor@example.com"
+
+          # Clona el repo de GitLab en una carpeta temporal
+          git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
+          cd repo-gitlab
+
+          # Copia el PDF desde el repo de GitHub
+          mkdir -p assets/sources/Publications/Integral
+          cp ../Integración.pdf assets/sources/Publications/Integral/
+
+          # Commit y push
+          git add assets/sources/Publications/Integral/Integración.pdf
+          git commit -m "Actualización automática del PDF desde GitHub" || echo "Nada que commitear"
+          git push
