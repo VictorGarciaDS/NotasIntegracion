@@ -13,6 +13,9 @@ on:
       - '**.eps'
   workflow_dispatch:
 
+permissions:
+  contents: write  # 🔑 Permite hacer push al repositorio
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -34,9 +37,3 @@ jobs:
         run: |
           git config --global user.name "Victor Garcia"
           git config --global user.email "victor.garcia@cimat.mx"
-
-      - name: Subir Integracion.pdf al repositorio
-        run: |
-          git add Integracion.pdf
-          git commit -m "Actualizar Integracion.pdf compilado automáticamente"
-          git push
