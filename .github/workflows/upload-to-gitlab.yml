@@ -18,6 +18,3 @@ jobs:
         run: |
           git config --global user.name "Victor Garcia (GitHub Action)"
           git config --global user.email "victor@example.com"
-
-          git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
-          cd repo-gitlab
