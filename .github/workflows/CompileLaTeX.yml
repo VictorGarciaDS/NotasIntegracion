@@ -1,0 +1,36 @@
+name: Compile LaTeX Document
+
+on:
+  push:
+    paths:
+      - 'assets/sources/Publications/Integral/**'
+  workflow_dispatch:
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up LaTeX
+        uses: dante-ev/latex-action@v1
+        with:
+          root_file: assets/sources/Publications/Integral/Integracion.tex
+          compiler: latexmk
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+          extra_system_packages: "ghostscript"
+
+      - name: Move PDF to folder
+        run: |
+          mkdir -p assets/sources/Publications/Integral
+          mv Integracion.pdf assets/sources/Publications/Integral/Integracion.pdf
+
+      - name: Commit and push PDF
+        run: |
+          git config user.name "Victor Garcia"
+          git config user.email "victor.garcia@cimat.mx"
+          git add assets/sources/Publications/Integral/Integracion.pdf
+          git commit -m "Compiled Integracion.pdf from LaTeX Action"
+          git push
