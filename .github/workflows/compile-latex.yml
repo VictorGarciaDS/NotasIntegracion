@@ -3,7 +3,14 @@ name: Compilar documento LaTeX
 on:
   push:
     paths:
-      - 'assets/sources/Publications/Integral/**'
+      - '**.tex'
+      - '**.bib'
+      - '**.sty'
+      - '**.cls'
+      - '**.png'
+      - '**.jpg'
+      - '**.pdf'
+      - '**.eps'
   workflow_dispatch:
 
 jobs:
