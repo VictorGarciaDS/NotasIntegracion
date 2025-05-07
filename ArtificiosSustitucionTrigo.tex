@@ -22,10 +22,9 @@ en la integral&\text{trigonométrica}&asociado\\
 $a^2-v^2$&$v=a\:sen\:\theta$&\begin{tikzpicture}[scale=.5]
 							\tkzInit[xmax=5,ymax=3] %\tkzClip[space=.5]
 							\tkzDefPoint(0,0){A} \tkzDefPoint(4,0){B}
-                            \tkzDefPoint(0,3){C}
-%							\tkzDrawTriangle[pythagore](A,B)
-%							\tkzGetPoint{C}
-							\tkzMarkRightAngle(A,B,C)
+                            \tkzDefPoint(4,3){C}
+                            \tkzDrawPolygon(A,B,C)
+						\tkzMarkRightAngle(A,B,C)
 							\tkzLabelSegment[below,font=\footnotesize](A,B){$\sqrt{a^2 - v^2}$}
 							\tkzLabelSegment[above,font=\footnotesize](A,C){$a$}
 							\tkzLabelSegment[right,font=\footnotesize](B,C){$v$}
@@ -36,10 +35,9 @@ $a^2-v^2$&$v=a\:sen\:\theta$&\begin{tikzpicture}[scale=.5]
 $a^2+v^2$&$v=a\:tan\:\theta$&\begin{tikzpicture}[scale=.5]
 							\tkzInit[xmax=5,ymax=3] %\tkzClip[space=.5]
 							\tkzDefPoint(0,0){A} \tkzDefPoint(4,0){B}
-%							\tkzDrawTriangle[pythagore](A,B)
-%							\tkzGetPoint{C}
-                            \tkzDefPoint(0,3){C}
-							\tkzMarkRightAngle(A,B,C)
+                            \tkzDefPoint(4,3){C}
+                            \tkzDrawPolygon(A,B,C)
+						\tkzMarkRightAngle(A,B,C)
 							\tkzLabelSegment[below,font=\footnotesize](A,B){$a$}
 							\tkzLabelSegment[above, rotate=35, font=\footnotesize](A,C){$\sqrt{a^2+u^2}$}
 							\tkzLabelSegment[right,font=\footnotesize](B,C){$v$}
@@ -50,9 +48,8 @@ $a^2+v^2$&$v=a\:tan\:\theta$&\begin{tikzpicture}[scale=.5]
 $v^2-a^2$&$v=a\:sec\:\theta$&\begin{tikzpicture}[scale=.5]
 							\tkzInit[xmax=5,ymax=3] %\tkzClip[space=.5]
 							\tkzDefPoint(0,0){A} \tkzDefPoint(4,0){B}
-%							\tkzDrawTriangle[pythagore](A,B)
-%							\tkzGetPoint{C}
-                            \tkzDefPoint(0,3){C}
+                            \tkzDefPoint(4,3){C}
+                            \tkzDrawPolygon(A,B,C)
 							\tkzMarkRightAngle(A,B,C)
 							\tkzLabelSegment[below,font=\footnotesize](A,B){$a$}
 							\tkzLabelSegment[above,font=\footnotesize](A,C){$v$}
