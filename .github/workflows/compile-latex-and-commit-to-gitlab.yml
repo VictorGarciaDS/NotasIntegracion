@@ -44,9 +44,14 @@ jobs:
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Primero actualiza desde remoto antes de hacer cambios locales
           git pull --rebase origin ${{ github.ref_name }}
+
+          # Luego añade el nuevo PDF y haz commit
           git add Integracion.pdf
           git commit -m "Compilado automático de Integracion.pdf a partir del commit ${{ github.event.head_commit.message }}" || echo "Sin cambios"
+          
+          # Finalmente, hace push
           git push https://x-access-token:${TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
 
       - name: Clonar repo de GitLab
