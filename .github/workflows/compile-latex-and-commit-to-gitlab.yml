@@ -44,6 +44,7 @@ jobs:
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git pull --rebase origin ${{ github.ref_name }}
           git add Integracion.pdf
           git commit -m "Compilado automático de Integracion.pdf a partir del commit ${{ github.event.head_commit.message }}" || echo "Sin cambios"
           git push https://x-access-token:${TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
