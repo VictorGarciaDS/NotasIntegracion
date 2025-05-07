@@ -1,4 +1,4 @@
-name: Test CI
+name: Upload PDF to GitLab
 
 on:
   push:
