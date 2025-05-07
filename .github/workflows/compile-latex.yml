@@ -33,6 +33,9 @@ jobs:
           curl -LO https://mirrors.ctan.org/macros/latex/contrib/tkz/tkz-euclide.zip
           unzip tkz-euclide.zip -d ~/
           texhash ~/texmf
+          echo "Verificando instalacion de tkz"
+          kpsewhich tkz-euclide.sty
+          echo "Post-verificacion"
 
       - name: Compilar Integracion.tex
         run: |
