@@ -12,12 +12,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Upload to GitLab
+      - name: Clone and modify from GitLab
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
           git config --global user.name "Victor Garcia (GitHub Action)"
-          git config --global user.email "victor@example.com"
+          git config --global user.email "victor.garcia@cimat.mx"
 
           # Clona el repositorio de GitLab
           git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
@@ -27,4 +27,9 @@ jobs:
           rm -f repo-gitlab/assets/sources/Publications/Integral/Integración.pdf
           echo "borrado"
 
-          # (Aquí podrías continuar con la copia del nuevo PDF si deseas)
+      - name: Commit and push removal
+        run: |
+          cd repo-gitlab
+          git add assets/sources/Publications/Integral/Integración.pdf
+          git commit -m "Removed old Integración.pdf from GitHub Action"
+          git push origin main
