@@ -26,15 +26,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y texlive-latex-recommended texlive-latex-extra latexmk texlive-lang-spanish
 
-      - name: Instalar manualmente tkz
-        run: |
-          mkdir -p ~/texmf/tex/latex/tkz-euclide
-          cd ~/texmf/tex/latex/tkz-euclide
-          curl -LO https://mirrors.ctan.org/macros/latex/contrib/tkz/tkz-euclide.zip
-          unzip tkz-euclide.zip -d ~/
-          texhash ~/texmf
-          kpsewhich tkz-euclide.sty
-
       - name: Compilar Integracion.tex
         run: |
           latexmk -pdf -shell-escape -interaction=nonstopmode -halt-on-error -f Integracion.tex
