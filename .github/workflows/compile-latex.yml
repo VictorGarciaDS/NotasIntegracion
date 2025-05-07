@@ -24,10 +24,18 @@ jobs:
       - name: Entrar al repositorio
         uses: actions/checkout@v3
 
-      - name: Instalar dependencias de LaTeX
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-latex-recommended texlive-latex-extra latexmk texlive-lang-spanish
+      - name: Instalar LaTeX (TeX Live)
+        uses: teatimeguest/setup-texlive-action@v2
+        with:
+          packages: >-
+            latexmk
+            scheme-medium
+            tkz-euclide
+            babel-spanish
+            csquotes
+            biblatex
+            pgf
+            xcolor
 
       - name: Compilar Integracion.tex
         run: |
