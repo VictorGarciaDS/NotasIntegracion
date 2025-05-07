@@ -13,15 +13,20 @@ jobs:
         run: |
           git config --global user.name "Victor Garcia (GitHub Action)"
           git config --global user.email "victor@example.com"
-
+        
+          echo "Clonando el repositorio..."
           git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo
           cd repo
-
+        
+          echo "Contenido del directorio clonado:"
+          ls -R
+        
           if [ -f assets/sources/Publications/Integral/Integración.pdf ]; then
+            echo "El archivo sí existe. Procediendo a borrarlo."
             rm assets/sources/Publications/Integral/Integración.pdf
             git add assets/sources/Publications/Integral/Integración.pdf
             git commit -m "Eliminación del PDF desde GitHub Actions"
             git push
           else
-            echo "El archivo no existe. No hay nada que eliminar."
+            echo "El archivo NO existe. Abortando."
           fi
