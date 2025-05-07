@@ -21,11 +21,9 @@ jobs:
 
           # Clona el repositorio de GitLab
           git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/mackonde1/victorgarciads-site.git repo-gitlab
-          echo "ya lo clone"
 
           # Elimina el PDF anterior
           rm -f repo-gitlab/assets/sources/Publications/Integral/Integración.pdf
-          echo "borrado"
 
       - name: Commit and push removal
         run: |
