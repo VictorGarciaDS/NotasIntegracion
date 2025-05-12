@@ -4,10 +4,6 @@ Este repositorio contiene mis notas personales sobre **cálculo integral**, reda
 
 > ✍️ Durante ese seminario, noté que incluso estudiantes avanzados —incluyendo personas en programas de doctorado— tenían dificultades con técnicas de integración básicas. Por ello decidí crear un material claro, accesible y cuidadosamente estructurado.
 
-<div align="center">
-  <img src="preview.png" alt="Vista previa del PDF" width="600"/>
-</div>
-
 ## 📄 Contenido
 
 - Notación
